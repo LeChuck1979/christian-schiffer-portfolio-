@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kontakt | Christian Schiffer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"Courier Prime"', 'monospace'],
+              serif: ['"DM Serif Display"', 'serif'], 
+            },
+            colors: {
+              paper: {
+                DEFAULT: '#F0E6D2',
+                dark: '#E6D5B8',
+              },
+              ink: {
+                DEFAULT: '#1c1917',
+                light: '#44403c',
+              },
+              marker: '#b91c1c',
+            },
+            backgroundImage: {
+              'noise': "url('graphics/noise.svg')",
+            }
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .bg-texture::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/noise.svg');
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 50;
+        mix-blend-mode: multiply;
+      }
+      .bg-crumpled {
+        position: relative;
+        background-color: #E6D5B8; 
+      }
+      .bg-crumpled::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/crumpled.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0; 
+      }
+      ::selection {
+        background: #b91c1c;
+        color: #F0E6D2;
+      }
+    </style>
+</head>
+  <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
+    
+    <!-- Header: Reduced padding (py-3 md:py-6) -->
+    <header class="fixed top-0 left-0 w-full px-6 py-3 md:px-12 md:py-6 flex flex-col md:flex-row justify-between items-center z-40 bg-paper/75 backdrop-blur-md border-b border-ink gap-4 md:gap-0">
+      <a href="index.html" class="font-mono font-bold text-xl md:text-2xl uppercase tracking-tighter text-ink flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <span class="bg-ink text-paper px-2 py-1 transform -rotate-1 inline-block">Christian</span>
+        <span class="tracking-widest">Schiffer</span>
+      </a>
+      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 text-xs md:text-sm font-bold uppercase tracking-widest text-ink/80">
+        <a href="journalismus.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Journalismus</a>
+        <a href="workshops.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Workshops & Seminare</a>
+        <a href="talks.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Talks & Inputs</a>
+        <a href="ueber-mich.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Über mich</a>
+        <a href="kontakt.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker text-marker decoration-marker line-through">Kontakt</a>
+      </nav>
+    </header>
+
+    <!-- Content Spacer for Fixed Header: Reduced height (h-24 md:h-28) -->
+    <div class="h-24 md:h-28"></div>
+
+    <section class="py-24 px-6 md:px-12 max-w-5xl mx-auto min-h-[80vh]">
+      
+      <!-- Header Contact -->
+      <div class="mb-16">
+         <span class="block font-mono text-xs font-bold uppercase tracking-widest mb-2">Sektion: Kommunikation</span>
+         <!-- Unified H1: Removed border-b-4 -->
+         <h1 class="font-serif text-5xl md:text-7xl text-ink">Kontakt</h1>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        
+        <!-- Card 1: Email -->
+        <div class="bg-white p-8 border-2 border-ink shadow-[8px_8px_0px_0px_rgba(28,25,23,0.2)] transform rotate-1 hover:rotate-0 transition-transform">
+          <h2 class="font-serif text-2xl mb-4 flex items-center gap-2">
+            <i data-lucide="mail" class="w-6 h-6 text-marker"></i> Elektronische Post
+          </h2>
+          <p class="font-mono text-sm leading-relaxed mb-6">
+            Für Anfragen bezüglich Vorträgen, Moderationen oder journalistischen Aufträgen nutzen Sie bitte vorzugsweise diesen Kanal.
+          </p>
+          <a href="mailto:kontakt@christian-schiffer.de" class="inline-block border-b-2 border-marker text-lg font-bold hover:bg-marker hover:text-paper transition-colors pb-1">
+            kontakt@christian-schiffer.de
+          </a>
+        </div>
+
+         <!-- Card 2: Social -->
+         <div class="bg-paper-dark p-8 border-2 border-ink shadow-[8px_8px_0px_0px_rgba(28,25,23,0.2)] transform -rotate-1 hover:rotate-0 transition-transform">
+          <h2 class="font-serif text-2xl mb-4 flex items-center gap-2">
+            <i data-lucide="globe" class="w-6 h-6 text-marker"></i> Soziale Netzwerke
+          </h2>
+          <p class="font-mono text-sm leading-relaxed mb-6">
+            Verfolgen Sie aktuelle Debatten und Updates auch auf den gängigen Plattformen.
+          </p>
+          <div class="flex flex-col gap-3 font-bold">
+             <a href="https://x.com/Wurzelbier" target="_blank" class="flex items-center gap-2 hover:text-marker transition-colors group">
+               <span class="w-2 h-2 bg-ink group-hover:bg-marker"></span> Twitter / X
+             </a>
+             <a href="https://www.linkedin.com/in/christian-schiffer-417a0525/" target="_blank" class="flex items-center gap-2 hover:text-marker transition-colors group">
+               <span class="w-2 h-2 bg-ink group-hover:bg-marker"></span> LinkedIn
+             </a>
+          </div>
+        </div>
+
+        <!-- Card 3: Phone -->
+        <div class="bg-paper p-8 border-2 border-ink border-dashed">
+          <h2 class="font-serif text-2xl mb-4 flex items-center gap-2 opacity-60">
+            <i data-lucide="phone" class="w-6 h-6"></i> Telefon
+          </h2>
+          <p class="font-mono text-sm leading-relaxed mb-6 opacity-60">
+            Telefonische Anfragen bitte nur nach vorheriger Terminvereinbarung per E-Mail.
+          </p>
+          <div class="text-lg font-bold opacity-40">
+            +49 (0) 89 123 456 78
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Footer / Contact Short -->
+    <section class="bg-ink text-paper py-12 px-6 md:px-12 relative overflow-hidden border-t border-paper/20">
+         <div class="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style="background-image: url('graphics/footer-texture.svg')"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-center text-xs uppercase tracking-widest text-paper/50 font-mono">
+            <p>&copy; 2025 Christian Schiffer. All rights reserved.</p>
+            <div class="flex flex-col items-center gap-2 mt-4 md:mt-0 md:items-end">
+              <div class="flex gap-8">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <a href="impressum.html" class="hover:text-white transition-colors">Impressum</a>
+              </div>
+              <p class="text-[10px] opacity-60">Made with ❤️ by Michael Förtsch with the help of AI</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

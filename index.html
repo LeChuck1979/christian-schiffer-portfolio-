@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Christian Schiffer | Journalist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"Courier Prime"', 'monospace'],
+              serif: ['"DM Serif Display"', 'serif'], 
+            },
+            colors: {
+              paper: {
+                DEFAULT: '#F0E6D2',
+                dark: '#E6D5B8',
+              },
+              ink: {
+                DEFAULT: '#1c1917',
+                light: '#44403c',
+              },
+              marker: '#b91c1c',
+            },
+            backgroundImage: {
+              'noise': "url('graphics/noise.svg')",
+            }
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .bg-texture::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/noise.svg');
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 50;
+        mix-blend-mode: multiply;
+      }
+      .bg-crumpled {
+        position: relative;
+        background-color: #E6D5B8; 
+      }
+      .bg-crumpled::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/crumpled.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0; 
+      }
+      ::selection {
+        background: #b91c1c;
+        color: #F0E6D2;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
+    
+    <!-- Header: Reduced padding (py-3 md:py-6) -->
+    <header class="fixed top-0 left-0 w-full px-6 py-3 md:px-12 md:py-6 flex flex-col md:flex-row justify-between items-center z-40 bg-paper/75 backdrop-blur-md border-b border-ink gap-4 md:gap-0">
+      <a href="index.html" class="font-mono font-bold text-xl md:text-2xl uppercase tracking-tighter text-ink flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <span class="bg-ink text-paper px-2 py-1 transform -rotate-1 inline-block">Christian</span>
+        <span class="tracking-widest">Schiffer</span>
+      </a>
+      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 text-xs md:text-sm font-bold uppercase tracking-widest text-ink/80">
+        <a href="journalismus.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Journalismus</a>
+        <a href="workshops.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Workshops & Seminare</a>
+        <a href="talks.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Talks & Inputs</a>
+        <a href="ueber-mich.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Über mich</a>
+        <a href="kontakt.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Kontakt</a>
+      </nav>
+    </header>
+
+    <!-- Hero Section: Adjusted top padding (pt-36 md:pt-48) -->
+    <section class="pt-36 pb-20 px-6 md:px-12 md:pt-48 md:pb-32 border-b-2 border-ink bg-crumpled overflow-hidden">
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div class="absolute -top-20 right-0 md:right-20 opacity-80 transform rotate-3 border border-ink p-2 text-xs font-bold uppercase tracking-widest hidden md:block">
+          München <br> Est. 1979
+        </div>
+
+        <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tighter mb-12 text-ink uppercase mix-blend-multiply">
+          Journalist,<br>
+          Autor,<br>
+          <span class="text-marker italic">Speaker</span> <br>
+          & Trainer.
+        </h1>
+        
+        <div class="flex flex-col md:flex-row justify-between items-end gap-8">
+           <div class="max-w-md font-mono text-sm md:text-base leading-relaxed text-ink-light">
+             // Chefredakteur a.D. WASD<br>
+             // Ressortleiter Netzwelt BR<br>
+             // Podcaster & Moderator
+           </div>
+
+           <a href="ueber-mich.html" class="group flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-ink border border-ink px-6 py-3 hover:bg-ink hover:text-paper transition-colors shadow-[4px_4px_0px_0px_rgba(28,25,23,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
+              Dossier öffnen
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section (Steckbrief) -->
+    <section id="about" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-y-6 md:gap-12">
+        <div class="md:col-span-4 pt-2 border-t border-ink md:border-t-0">
+          <div class="flex items-center mb-2 md:mb-0">
+            <span class="bg-ink text-paper px-2 py-0.5 text-xs font-bold uppercase tracking-widest transform -rotate-1">
+              Steckbrief
+            </span>
+          </div>
+        </div>
+        <div class="md:col-span-8 font-mono text-lg md:text-xl leading-relaxed text-ink-light text-justify" style="text-align-last: left;">
+          <p>
+            <span class="text-5xl float-left mr-3 mt-[-5px] font-serif text-ink">C</span>hristian Schiffer ist Journalist, Moderator und Autor mit Sitz in München. Als Redakteur beim Bayerischen Rundfunk leitet er das Ressort "Netzwelt". Seine Arbeit beschäftigt sich intensiv mit den gesellschaftlichen Auswirkungen der Digitalisierung – dort, wo Technik auf Menschlichkeit trifft.
+          </p>
+          <p class="mt-6">
+            Lange Zeit prägte er als Chefredakteur und Mitherausgeber des Bookazines <em>WASD</em> den deutschsprachigen Spielejournalismus. Er streitet für ein erwachsenes Verständnis des Mediums Computerspiel: von der Aufarbeitung der "Killerspiel"-Debatte in ZDF-Dokus bis hin zu Diskussionen über Kunstfreiheit. Als Speaker (u.a. re:publica) und Podcaster analysiert er zudem Phänomene wie Fake News, Verschwörungstheorien und die digitale Kultur.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote / Image Section with Crumpled Background -->
+    <section class="py-12 px-6 md:px-12 border-y-2 border-ink bg-crumpled overflow-hidden">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="order-2 lg:order-1">
+          <div class="border-l-4 border-marker pl-6 py-2">
+            <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl leading-tight mb-6 text-ink italic">
+              "Digitalisierung ist kein technisches Nischenthema. Sie ist der Alltag, der unsere Demokratie und Kultur neu verhandelt."
+            </h2>
+            <p class="font-mono text-xs font-bold uppercase tracking-widest text-ink">
+              — Auszug: Christian Schiffer
+            </p>
+          </div>
+        </div>
+        <div class="relative order-1 lg:order-2 p-4 bg-white border border-ink transform rotate-1 shadow-lg">
+          <div class="aspect-[4/3] w-full overflow-hidden">
+            <!-- BILDANPASSUNG: Grayscale entfernt -->
+            <img 
+              src="graphics/portrait_main.jpg" 
+              alt="Christian Schiffer Portrait" 
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="absolute bottom-1 right-2 text-[10px] font-mono text-gray-500">FIG. A: RECORDING</div>
+          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-yellow-100/80 rotate-[-2deg] shadow-sm"></div>
+        </div>
+      </div>
+    </section>
+
+     <!-- Section Gedrucktes (Buch-Cover) -->
+    <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="col-span-1 lg:col-span-12">
+           <!-- Unified Heading: Removed border-b-4 -->
+           <h3 class="font-serif text-5xl md:text-7xl mb-16 text-ink">Gedrucktes</h3>
+           <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-4 md:px-0">
+             
+             <!-- Buch 1 - Fixed Proportions & removed grayscale -->
+             <a href="#" target="_blank" class="group relative block w-full max-w-[250px] mx-auto bg-gray-200 transform transition-all duration-500 hover:-translate-y-2 cursor-pointer">
+                <div class="absolute inset-0 bg-ink transform translate-x-2 translate-y-2 rounded-sm opacity-40 group-hover:opacity-30 transition-opacity"></div>
+                <div class="absolute inset-0 bg-paper-dark transform translate-x-1 translate-y-1 rounded-sm"></div>
+                <!-- BILDANPASSUNG: h-auto instead of object-cover/aspect -->
+                <img 
+                  src="graphics/buch_merkel.jpg" 
+                  alt="Buchcover: Angela Merkel ist Hitlers Tochter" 
+                  class="relative z-10 w-full h-auto object-contain border border-ink shadow-xl transition-all duration-500"
+                />
+             </a>
+
+             <!-- Buch 2 - Fixed Proportions & removed grayscale -->
+             <a href="#" target="_blank" class="group relative block w-full max-w-[250px] mx-auto bg-gray-200 transform transition-all duration-500 hover:-translate-y-2 cursor-pointer">
+                <div class="absolute inset-0 bg-ink transform translate-x-2 translate-y-2 rounded-sm opacity-40 group-hover:opacity-30 transition-opacity"></div>
+                <div class="absolute inset-0 bg-paper-dark transform translate-x-1 translate-y-1 rounded-sm"></div>
+                <!-- BILDANPASSUNG: h-auto instead of object-cover/aspect -->
+                <img 
+                  src="graphics/buch_wasd.jpg" 
+                  alt="Buchcover: Die Wahrheit ist (n)irgendwo da draußen" 
+                  class="relative z-10 w-full h-auto object-contain border border-ink shadow-xl transition-all duration-500"
+                />
+             </a>
+
+             <!-- Buch 3 - Fixed Proportions & removed grayscale -->
+             <a href="#" target="_blank" class="group relative block w-full max-w-[250px] mx-auto bg-gray-200 transform transition-all duration-500 hover:-translate-y-2 cursor-pointer">
+                <div class="absolute inset-0 bg-ink transform translate-x-2 translate-y-2 rounded-sm opacity-40 group-hover:opacity-30 transition-opacity"></div>
+                <div class="absolute inset-0 bg-paper-dark transform translate-x-1 translate-y-1 rounded-sm"></div>
+                <!-- BILDANPASSUNG: h-auto instead of object-cover/aspect -->
+                <img 
+                  src="graphics/buch_neu.jpg" 
+                  alt="Buchcover: Noch unbekannt" 
+                  class="relative z-10 w-full h-auto object-contain border border-ink shadow-xl transition-all duration-500"
+                />
+             </a>
+
+           </div>
+        </div>
+    </section>
+
+      <!-- Footer / Contact -->
+      <section id="contact" class="bg-ink text-paper py-24 px-6 md:px-12 relative overflow-hidden">
+         <!-- TEXTURANPASSUNG: Footer Rauschen -->
+         <div class="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style="background-image: url('graphics/footer-texture.svg')"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+          
+          <div class="border-t border-ink-light pt-20 grid grid-cols-1 md:grid-cols-12 gap-12">
+            <div class="md:col-span-4">
+               <div class="flex items-center mb-4">
+                <span class="bg-paper text-ink px-2 py-0.5 text-xs font-bold uppercase tracking-widest transform -rotate-2">
+                  Kontakt
+                </span>
+              </div>
+              <p class="font-mono text-lg text-paper/80 mb-8">
+                Verfügbar für Moderationen, Vorträge (u.a. re:publica) und journalistische Projekte.
+              </p>
+            </div>
+            
+            <div class="md:col-span-8 flex flex-col items-start">
+              <h2 class="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 text-paper tracking-tighter">
+                Lass uns sprechen.
+              </h2>
+              <a 
+                href="mailto:kontakt@christian-schiffer.de" 
+                class="text-xl md:text-3xl font-mono border-b-2 border-ink-light pb-2 hover:border-marker hover:text-marker transition-colors"
+              >
+                kontakt@christian-schiffer.de
+              </a>
+
+              <div class="flex flex-wrap gap-8 mt-12 font-mono text-sm uppercase tracking-widest">
+                <a href="https://x.com/Wurzelbier" target="_blank" class="border-b border-ink-light pb-1 hover:text-marker hover:border-marker transition-colors text-paper">
+                  Twitter
+                </a>
+                <a href="https://www.linkedin.com/in/christian-schiffer-417a0525/" target="_blank" class="border-b border-ink-light pb-1 hover:text-marker hover:border-marker transition-colors text-paper">
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-24 pt-8 border-t border-ink-light flex flex-col md:flex-row justify-between text-xs uppercase tracking-widest text-paper/50 font-mono">
+            <p>&copy; 2025 Christian Schiffer. All rights reserved.</p>
+            <div class="flex flex-col items-center gap-2 mt-4 md:mt-0 md:items-end">
+              <div class="flex gap-8">
+                <span>München, Deutschland</span>
+                <a href="impressum.html" class="hover:text-marker transition-colors">Impressum</a>
+              </div>
+              <p class="text-[10px] opacity-60">Made with ❤️ by Michael Förtsch with the help of AI</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

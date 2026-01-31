@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Journalismus | Christian Schiffer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"Courier Prime"', 'monospace'],
+              serif: ['"DM Serif Display"', 'serif'], 
+            },
+            colors: {
+              paper: {
+                DEFAULT: '#F0E6D2',
+                dark: '#E6D5B8',
+              },
+              ink: {
+                DEFAULT: '#1c1917',
+                light: '#44403c',
+              },
+              marker: '#b91c1c',
+            },
+            backgroundImage: {
+              'noise': "url('graphics/noise.svg')",
+            }
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .bg-texture::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/noise.svg');
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 50;
+        mix-blend-mode: multiply;
+      }
+      .bg-crumpled {
+        position: relative;
+        background-color: #E6D5B8; 
+      }
+      .bg-crumpled::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/crumpled.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0; 
+      }
+      ::selection {
+        background: #b91c1c;
+        color: #F0E6D2;
+      }
+      /* Utility class for the unified card style */
+      .card-box {
+        background-color: #f6faf9; /* UPDATED COLOR */
+        border: 1px solid #1c1917; /* ink */
+        padding: 1.5rem;
+        position: relative;
+        box-shadow: 4px 4px 0px 0px rgba(28,25,23,1);
+        transition: transform 0.2s;
+      }
+      .card-box:hover {
+        transform: translateY(-2px);
+      }
+      .card-tag {
+        position: absolute;
+        top: -0.75rem;
+        left: 1rem;
+        background-color: #1c1917;
+        color: #F0E6D2;
+        font-size: 0.625rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.25rem 0.5rem;
+      }
+      .card-tag.highlight {
+        background-color: #b91c1c;
+        color: #F0E6D2;
+      }
+    </style>
+</head>
+  <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
+    
+    <!-- Header: Reduced padding (py-3 md:py-6) -->
+    <header class="fixed top-0 left-0 w-full px-6 py-3 md:px-12 md:py-6 flex flex-col md:flex-row justify-between items-center z-40 bg-paper/75 backdrop-blur-md border-b border-ink gap-4 md:gap-0">
+      <a href="index.html" class="font-mono font-bold text-xl md:text-2xl uppercase tracking-tighter text-ink flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <span class="bg-ink text-paper px-2 py-1 transform -rotate-1 inline-block">Christian</span>
+        <span class="tracking-widest">Schiffer</span>
+      </a>
+      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 text-xs md:text-sm font-bold uppercase tracking-widest text-ink/80">
+        <a href="journalismus.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker text-marker decoration-marker line-through">Journalismus</a>
+        <a href="workshops.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Workshops & Seminare</a>
+        <a href="talks.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Talks & Inputs</a>
+        <a href="ueber-mich.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Über mich</a>
+        <a href="kontakt.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Kontakt</a>
+      </nav>
+    </header>
+
+    <!-- Content Spacer for Fixed Header: Reduced height (h-24 md:h-28) -->
+    <div class="h-24 md:h-28"></div>
+
+    <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+      
+      <div class="inline-block border border-ink px-2 py-1 text-xs font-bold uppercase tracking-widest mb-6 transform -rotate-1">
+        Recherche & Storytelling
+      </div>
+      
+      <!-- Unified H1: Removed border-b-4 -->
+      <h1 class="font-serif text-5xl md:text-7xl mb-16 text-ink">
+        Journalismus & Projekte
+      </h1>
+
+      <!-- PODCASTS SECTION -->
+      <div class="mb-24">
+          <!-- Unified H2: Removed side lines -->
+          <h2 class="font-serif text-4xl text-ink mb-8">Podcasts</h2>
+          
+          <p class="font-mono text-lg mb-12 max-w-3xl">
+             Podcasts erlauben es mir, komplexe Geschichten über mehrere Folgen hinweg zu erzählen – mit der Zeit, die diese Themen verdienen.
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <!-- Item 1 -->
+              <div class="card-box">
+                  <div class="card-tag">Deutschlandfunk</div>
+                  <h3 class="font-serif text-2xl mt-4 mb-3">Die Peter Thiel-Story</h3>
+                  <p class="text-sm leading-relaxed">
+                      Ein mehrteiliger Podcast über den Tech-Milliardär, der mit PayPal und Facebook reich wurde. Die Serie beleuchtet Thiels radikal-libertäre Ideenwelt, seinen Einfluss auf Trump und seine Vision einer post-demokratischen Zukunft.
+                  </p>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="card-box">
+                  <div class="card-tag">WDR</div>
+                  <h3 class="font-serif text-2xl mt-4 mb-3">Die Elon Musk-Story</h3>
+                  <p class="text-sm leading-relaxed">
+                      Ein Podcast in fünf Teilen über den umstrittensten Tech-Milliardär unserer Zeit. Von SpaceX über Tesla bis zur chaotischen Übernahme von Twitter – wer ist dieser Mann wirklich, und was treibt ihn an?
+                  </p>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="card-box">
+                  <div class="card-tag highlight">Grimme Online Award</div>
+                  <h3 class="font-serif text-2xl mt-4 mb-3">In 5 Tagen Mord</h3>
+                  <p class="text-sm leading-relaxed">
+                      Die Krimi-Challenge mit KI. Comedian Janina Rook und ich schreiben innerhalb von fünf Tagen ein Krimi-Hörspiel im Stil der 50er-Jahre – mit Hilfe von Expert:innen und ChatGPT.
+                  </p>
+              </div>
+          </div>
+      </div>
+
+      <!-- RADIO DOKUS SECTION -->
+      <div class="mb-24">
+          <!-- Unified H2 -->
+          <h2 class="font-serif text-4xl text-ink mb-8">Radio-Dokus</h2>
+          
+          <p class="font-mono text-lg mb-12 max-w-3xl">
+             Radio-Features sind für mich die journalistische Königsdisziplin: aufwendig recherchiert, atmosphärisch erzählt, tief eintauchend.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+               <!-- Item 1 -->
+               <div class="card-box">
+                   <div class="card-tag">ARD Radiofeature</div>
+                   <h3 class="font-serif text-2xl mt-4 mb-3">Künstliche Nähe</h3>
+                   <p class="text-sm leading-relaxed">
+                       Doku über KI, Vertrauen und Abhängigkeit. Was passiert, wenn Maschinen zu Freunden und Therapeuten werden? Dieses Feature untersucht die Chancen und Gefahren von KI-Chatbots.
+                   </p>
+               </div>
+               
+               <!-- Item 2 -->
+               <div class="card-box">
+                   <div class="card-tag">Hugo-Junkers-Preis</div>
+                   <h3 class="font-serif text-2xl mt-4 mb-3">Der Krieg von morgen</h3>
+                   <p class="text-sm leading-relaxed">
+                       Wie Drohnen den Kampf um die Ukraine verändern. Kleine billige Drohnen zerstören Panzer im Wert von Millionen. Zusammen mit Fritz Espenlaub untersuche ich, wie Krieg heute funktioniert.
+                   </p>
+               </div>
+
+               <!-- Item 3 -->
+               <div class="card-box">
+                   <div class="card-tag">Prix Marulić</div>
+                   <h3 class="font-serif text-2xl mt-4 mb-3">Im Schutz der Dunkelheit</h3>
+                   <p class="text-sm leading-relaxed">
+                       Eine Expedition ins Darknet. Eine Reise in den digitalen Untergrund, wo Anonymität kriminelle Geschäfte ermöglicht, aber auch Dissidenten schützt.
+                   </p>
+               </div>
+          </div>
+      </div>
+
+      <!-- EXPERIMENTE SECTION -->
+      <div class="mb-24">
+        <div class="card-box p-8 md:p-10 transform rotate-[0.5deg]">
+          <div class="card-tag highlight px-4 text-sm" style="top:-1rem;">Feldversuche</div>
+          
+          <p class="font-mono text-lg mb-8 pt-2">
+             Manchmal muss man Dinge am eigenen Leib erfahren, um wirklich zu verstehen, was Technologie mit uns macht.
+          </p>
+
+          <div class="space-y-8">
+              <div class="flex flex-col md:flex-row gap-6 items-start border-b border-ink/20 pb-6">
+                  <div class="w-12 h-12 bg-ink text-paper flex items-center justify-center font-bold text-xl flex-shrink-0">VR</div>
+                  <div>
+                      <h3 class="font-serif text-2xl mb-2">24 Stunden in der VR verbracht</h3>
+                      <p class="font-mono text-sm leading-relaxed">
+                          Brille auf, Welt aus: Was macht Virtual Reality mit uns? Zusammen mit Christian Alt habe ich den Selbstversuch gewagt und 24 Stunden in der virtuellen Realität verbracht.
+                      </p>
+                  </div>
+              </div>
+
+              <div class="flex flex-col md:flex-row gap-6 items-start">
+                  <div class="w-12 h-12 bg-ink text-paper flex items-center justify-center font-bold text-xl flex-shrink-0">AI</div>
+                  <div>
+                      <h3 class="font-serif text-2xl mb-2">ChatGPT zum Abitur geschickt</h3>
+                      <p class="font-mono text-sm leading-relaxed">
+                          Kann eine KI das bayerische Abitur bestehen? Zusammen mit Philipp Gawlik habe ich ChatGPT in vier Fächern antreten lassen – mit überraschendem Ergebnis.
+                      </p>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAMING JOURNALISMUS SECTION -->
+      <div class="mb-24">
+          <!-- Unified H2 -->
+          <h2 class="font-serif text-4xl text-ink mb-8">Gaming-Journalismus</h2>
+          
+          <p class="font-mono text-lg mb-12 max-w-3xl">
+             Als einer der ersten Journalisten in Deutschland habe ich Videospiele ernst genommen – lange bevor es selbstverständlich war.
+          </p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Card -->
+              <div class="card-box">
+                  <div class="card-tag">Herausgeber</div>
+                  <h3 class="font-serif text-2xl mt-4 mb-2">WASD – Bookazine</h3>
+                  <p class="text-sm font-mono">
+                      Zusammen mit Markus Weissenhorn habe ich das mehrfach ausgezeichnete Magazin gegründet und herausgegeben. WASD beschäftigte sich mit Videospielen als Kulturgut.
+                  </p>
+              </div>
+
+               <!-- Card -->
+              <div class="card-box">
+                  <div class="card-tag">ZDFinfo Doku-Reihe</div>
+                  <h3 class="font-serif text-2xl mt-4 mb-2">Die Killerspiel-Debatte</h3>
+                  <p class="text-sm font-mono">
+                      In drei Dokumentationen habe ich die deutsche "Killerspiel"-Debatte aufgearbeitet. Die Filme wurden 2017 für den Grimme-Preis nominiert.
+                  </p>
+              </div>
+
+               <!-- Card -->
+              <div class="card-box">
+                  <div class="card-tag">taz / Medium</div>
+                  <h3 class="font-serif text-2xl mt-4 mb-2">Kein "Continue" im echten Leben</h3>
+                  <p class="text-sm font-mono">
+                      Ein Porträt über den verstorbenen Spieler Dmitri und die Frage, wie Videospiele mit existenziellen Themen umgehen.
+                  </p>
+              </div>
+
+               <!-- Card -->
+              <div class="card-box">
+                  <div class="card-tag">Bayerischer Rundfunk</div>
+                  <h3 class="font-serif text-2xl mt-4 mb-2">Hörfunk-Kritiken</h3>
+                  <p class="text-sm font-mono">
+                      Seit 15 Jahren bespreche ich Videospiele für den BR und andere ARD-Anstalten. Gaming als journalistisches Thema – ernst genommen, kritisch beleuchtet.
+                  </p>
+              </div>
+          </div>
+      </div>
+
+      <!-- BÜCHER SECTION -->
+      <div class="mb-24">
+          <!-- Unified H2 -->
+          <h2 class="font-serif text-4xl text-ink mb-8">Bücher</h2>
+          
+          <p class="font-mono text-lg mb-12 max-w-3xl">
+             Manche Themen brauchen mehr als einen Artikel oder eine Sendung – sie brauchen ein ganzes Buch.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+              
+              <!-- Buch 1 - Corrected Proportions -->
+              <div class="flex flex-col gap-4 items-start">
+                  <div class="w-full bg-ink/10 border border-ink flex items-center justify-center flex-shrink-0 relative shadow-md">
+                       <!-- Removed object-cover and absolute to allow height to adjust -->
+                       <img 
+                          src="graphics/buch_merkel.jpg" 
+                          onerror="this.style.display='none'"
+                          alt="Cover" 
+                          class="w-full h-auto relative z-10"
+                       />
+                  </div>
+                  <div>
+                      <h3 class="font-serif text-xl mb-2 leading-tight">Angela Merkel ist Hitlers Tochter</h3>
+                      <p class="text-xs font-bold uppercase tracking-widest mb-2 text-marker">Im Land der Verschwörungstheorien</p>
+                      <span class="text-xs font-mono border border-ink px-2 py-1">Hanser Verlag, 2018</span>
+                  </div>
+              </div>
+
+              <!-- Buch 2 - Corrected Proportions -->
+              <div class="flex flex-col gap-4 items-start">
+                  <div class="w-full bg-ink/10 border border-ink flex items-center justify-center flex-shrink-0 relative shadow-md">
+                        <!-- Removed object-cover and absolute to allow height to adjust -->
+                       <img 
+                          src="graphics/buch_wasd.jpg" 
+                          onerror="this.style.display='none'"
+                          alt="Cover" 
+                          class="w-full h-auto relative z-10"
+                       />
+                  </div>
+                  <div>
+                      <h3 class="font-serif text-xl mb-2 leading-tight">Die Wahrheit ist (n)irgendwo da draußen</h3>
+                      <p class="text-xs font-bold uppercase tracking-widest mb-2 text-marker">Was der UFO-Hype verrät</p>
+                      <span class="text-xs font-mono border border-ink px-2 py-1">Goldmann Verlag, 2023</span>
+                  </div>
+              </div>
+
+              <!-- Buch 3 (Noch kommt) -->
+              <div class="flex flex-col gap-4 items-start opacity-60">
+                  <div class="w-full aspect-[2/3] bg-ink/5 border-2 border-dashed border-ink flex items-center justify-center flex-shrink-0 relative">
+                       <div class="text-center p-4">
+                           <span class="block font-serif text-4xl mb-2 text-ink/30">?</span>
+                           <span class="text-xs font-mono uppercase tracking-widest text-ink/50">Coming Soon</span>
+                       </div>
+                  </div>
+                  <div>
+                      <h3 class="font-serif text-xl mb-2 leading-tight">Titel noch streng geheim</h3>
+                      <p class="text-xs font-bold uppercase tracking-widest mb-2 text-ink/50">Work in Progress</p>
+                      <span class="text-xs font-mono border border-ink/50 px-2 py-1 text-ink/50">Erscheint 202X</span>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+
+      <!-- Hall of Fame / Awards (UNVERÄNDERT) -->
+      <div class="bg-ink text-paper p-8 md:p-12 relative shadow-[8px_8px_0px_0px_rgba(185,28,28,1)]">
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-marker px-4 py-2 text-paper font-serif text-xl border border-paper shadow-md rotate-1">
+           Hall of Fame / Auszeichnungen
+        </div>
+
+        <div class="space-y-6 font-mono text-sm md:text-base mt-6">
+          <!-- Award Item -->
+          <div class="flex flex-col md:flex-row md:items-baseline gap-2 border-b border-ink-light pb-2">
+             <span class="text-marker font-bold w-16">2025</span>
+             <span class="font-bold">Hugo-Junkers-Preis</span>
+             <span class="text-paper/70 md:ml-auto italic">"Der Krieg von morgen" (mit Fritz Espenlaub)</span>
+          </div>
+          
+          <div class="flex flex-col md:flex-row md:items-baseline gap-2 border-b border-ink-light pb-2">
+             <span class="text-marker font-bold w-16">2024</span>
+             <span class="font-bold">Grimme Online Award (Sonderpreis KI)</span>
+             <span class="text-paper/70 md:ml-auto italic">"In 5 Tagen Mord" (Team)</span>
+          </div>
+
+          <div class="flex flex-col md:flex-row md:items-baseline gap-2 border-b border-ink-light pb-2">
+             <span class="text-marker font-bold w-16">2021</span>
+             <span class="font-bold">Medienpreis für digitale Aufklärung (3. Platz)</span>
+             <span class="text-paper/70 md:ml-auto italic">"Fake-Video basteln" (mit C. Sachsinger)</span>
+          </div>
+
+          <div class="flex flex-col md:flex-row md:items-baseline gap-2 border-b border-ink-light pb-2">
+             <span class="text-marker font-bold w-16">2021</span>
+             <span class="font-bold">Journalistenpreis BV Herzkranke Kinder</span>
+             <span class="text-paper/70 md:ml-auto italic">"Herzbubble auf Instagram"</span>
+          </div>
+
+           <div class="flex flex-col md:flex-row md:items-baseline gap-2 border-b border-ink-light pb-2">
+             <span class="text-marker font-bold w-16">2020</span>
+             <span class="font-bold">Datenschutz Medienpreis</span>
+             <span class="text-paper/70 md:ml-auto italic">"Tracking: Ein Tag im Internet"</span>
+          </div>
+
+          <div class="flex flex-col md:flex-row md:items-baseline gap-2 border-b border-ink-light pb-2">
+             <span class="text-marker font-bold w-16">2017</span>
+             <span class="font-bold">Goethe Medienpreis (2. Platz)</span>
+             <span class="text-paper/70 md:ml-auto italic">"It's the economy, stupid!"</span>
+          </div>
+
+          <div class="flex flex-col md:flex-row md:items-baseline gap-2 border-b border-ink-light pb-2">
+             <span class="text-marker font-bold w-16">2017</span>
+             <span class="font-bold">Robert Geisendörfer Preis</span>
+             <span class="text-paper/70 md:ml-auto italic">"Schöner neuer Wahn" (mit C. Alt & N. von Koslowski)</span>
+          </div>
+
+          <div class="flex flex-col md:flex-row md:items-baseline gap-2 border-b border-ink-light pb-2">
+             <span class="text-marker font-bold w-16">2015</span>
+             <span class="font-bold">Prix Marulić (3. Platz, Documentary)</span>
+             <span class="text-paper/70 md:ml-auto italic">"Im Schutz der Dunkelheit"</span>
+          </div>
+
+          <div class="flex flex-col md:flex-row md:items-baseline gap-2">
+             <span class="text-marker font-bold w-16">2012</span>
+             <span class="font-bold">Kurt-Magnus-Preis (4. Platz)</span>
+             <span class="text-paper/70 md:ml-auto italic">Radio-Features zu digitalen Themen</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <section id="contact" class="bg-ink text-paper py-24 px-6 md:px-12 relative overflow-hidden">
+         <!-- TEXTURANPASSUNG: Footer Rauschen -->
+         <div class="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style="background-image: url('graphics/footer-texture.svg')"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+          <div class="border-t border-ink-light pt-20 grid grid-cols-1 md:grid-cols-12 gap-12">
+            <div class="md:col-span-4">
+               <div class="flex items-center mb-4">
+                <span class="bg-paper text-ink px-2 py-0.5 text-xs font-bold uppercase tracking-widest transform -rotate-2">
+                  Kontakt
+                </span>
+              </div>
+              <p class="font-mono text-lg text-paper/80 mb-8">
+                Verfügbar für Moderationen, Vorträge (u.a. re:publica) und journalistische Projekte.
+              </p>
+            </div>
+            
+            <div class="md:col-span-8 flex flex-col items-start">
+              <h2 class="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 text-paper tracking-tighter">
+                Lass uns sprechen.
+              </h2>
+              <a 
+                href="mailto:kontakt@christian-schiffer.de" 
+                class="text-xl md:text-3xl font-mono border-b-2 border-ink-light pb-2 hover:border-marker hover:text-marker transition-colors"
+              >
+                kontakt@christian-schiffer.de
+              </a>
+              
+              <div class="flex flex-wrap gap-8 mt-12 font-mono text-sm uppercase tracking-widest">
+                <a href="https://x.com/Wurzelbier" target="_blank" class="border-b border-ink-light pb-1 hover:text-marker hover:border-marker transition-colors text-paper">
+                  Twitter
+                </a>
+                <a href="https://www.linkedin.com/in/christian-schiffer-417a0525/" target="_blank" class="border-b border-ink-light pb-1 hover:text-marker hover:border-marker transition-colors text-paper">
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-24 pt-8 border-t border-ink-light flex flex-col md:flex-row justify-between text-xs uppercase tracking-widest text-paper/50 font-mono">
+            <p>&copy; 2025 Christian Schiffer. All rights reserved.</p>
+             <div class="flex flex-col items-center gap-2 mt-4 md:mt-0 md:items-end">
+              <div class="flex gap-8">
+                <span>München, Deutschland</span>
+                <a href="impressum.html" class="hover:text-marker transition-colors">Impressum</a>
+              </div>
+              <p class="text-[10px] opacity-60">Made with ❤️ by Michael Förtsch with the help of AI</p>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Impressum | Christian Schiffer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"Courier Prime"', 'monospace'],
+              serif: ['"DM Serif Display"', 'serif'], 
+            },
+            colors: {
+              paper: {
+                DEFAULT: '#F0E6D2',
+                dark: '#E6D5B8',
+              },
+              ink: {
+                DEFAULT: '#1c1917',
+                light: '#44403c',
+              },
+              marker: '#b91c1c',
+            },
+            backgroundImage: {
+              'noise': "url('graphics/noise.svg')",
+            }
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .bg-texture::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/noise.svg');
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 50;
+        mix-blend-mode: multiply;
+      }
+      .bg-crumpled {
+        position: relative;
+        background-color: #E6D5B8; 
+      }
+      .bg-crumpled::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/crumpled.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0; 
+      }
+      ::selection {
+        background: #b91c1c;
+        color: #F0E6D2;
+      }
+      /* Utility class for the unified card style */
+      .card-box {
+        background-color: #f6faf9; /* UPDATED COLOR */
+        border: 1px solid #1c1917; /* ink */
+        padding: 1.5rem;
+        position: relative;
+        box-shadow: 4px 4px 0px 0px rgba(28,25,23,1);
+        transition: transform 0.2s;
+      }
+      .card-box:hover {
+        transform: translateY(-2px);
+      }
+      .card-tag {
+        position: absolute;
+        top: -0.75rem;
+        left: 1rem;
+        background-color: #1c1917;
+        color: #F0E6D2;
+        font-size: 0.625rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.25rem 0.5rem;
+      }
+      .card-tag.highlight {
+        background-color: #b91c1c;
+        color: #F0E6D2;
+      }
+    </style>
+</head>
+  <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
+    
+    <!-- Header: Reduced padding (py-3 md:py-6) -->
+    <header class="fixed top-0 left-0 w-full px-6 py-3 md:px-12 md:py-6 flex flex-col md:flex-row justify-between items-center z-40 bg-paper/75 backdrop-blur-md border-b border-ink gap-4 md:gap-0">
+      <a href="index.html" class="font-mono font-bold text-xl md:text-2xl uppercase tracking-tighter text-ink flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <span class="bg-ink text-paper px-2 py-1 transform -rotate-1 inline-block">Christian</span>
+        <span class="tracking-widest">Schiffer</span>
+      </a>
+      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 text-xs md:text-sm font-bold uppercase tracking-widest text-ink/80">
+        <a href="journalismus.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Journalismus</a>
+        <a href="workshops.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Workshops & Seminare</a>
+        <a href="talks.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Talks & Inputs</a>
+        <a href="ueber-mich.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Über mich</a>
+        <a href="kontakt.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Kontakt</a>
+      </nav>
+    </header>
+
+    <!-- Content Spacer for Fixed Header: Reduced height (h-24 md:h-28) -->
+    <div class="h-24 md:h-28"></div>
+
+    <section class="py-24 px-6 md:px-12 max-w-4xl mx-auto">
+      <!-- Unified H1: Removed border-b-4 -->
+      <h1 class="font-serif text-5xl md:text-7xl mb-12 text-ink">
+        Impressum
+      </h1>
+
+      <div class="font-mono space-y-8 text-ink">
+        
+        <!-- Angaben gemäß § 5 TMG -->
+        <div class="bg-paper-dark/30 p-8 border border-ink">
+          <!-- Unified H2: Removed border-b -->
+          <h2 class="font-serif text-2xl mb-4">Angaben gemäß § 5 TMG</h2>
+          <p class="mt-4">
+            Christian Schiffer<br>
+            Journalist & Autor<br>
+            [Musterstraße 123]<br>
+            [80XXX] München<br>
+            Deutschland
+          </p>
+        </div>
+
+        <!-- Kontakt -->
+        <div class="bg-paper-dark/30 p-8 border border-ink">
+           <!-- Unified H2: Removed border-b -->
+           <h2 class="font-serif text-2xl mb-4">Kontakt</h2>
+           <p class="mt-4">
+             E-Mail: kontakt@christian-schiffer.de<br>
+             <!-- Telefon: [Optional] -->
+           </p>
+        </div>
+
+        <!-- Verantwortlich für den Inhalt -->
+        <div class="bg-paper-dark/30 p-8 border border-ink">
+           <!-- Unified H2: Removed border-b -->
+           <h2 class="font-serif text-2xl mb-4">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+           <p class="mt-4">
+             Christian Schiffer<br>
+             (Anschrift wie oben)
+           </p>
+        </div>
+
+        <!-- Haftungsausschluss -->
+        <div>
+          <h3 class="font-bold text-lg uppercase tracking-widest mb-2 text-marker">Haftung für Inhalte</h3>
+          <p class="text-sm mb-4 leading-relaxed">
+            Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+          </p>
+
+          <h3 class="font-bold text-lg uppercase tracking-widest mb-2 text-marker">Haftung für Links</h3>
+          <p class="text-sm mb-4 leading-relaxed">
+            Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden derartige Links umgehend entfernen.
+          </p>
+
+          <h3 class="font-bold text-lg uppercase tracking-widest mb-2 text-marker">Urheberrecht</h3>
+          <p class="text-sm mb-4 leading-relaxed">
+            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Footer / Contact Short -->
+    <section class="bg-ink text-paper py-12 px-6 md:px-12 relative overflow-hidden border-t border-paper/20">
+         <div class="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style="background-image: url('graphics/footer-texture.svg')"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-center text-xs uppercase tracking-widest text-paper/50 font-mono">
+            <p>&copy; 2025 Christian Schiffer. All rights reserved.</p>
+            <div class="flex flex-col items-center gap-2 mt-4 md:mt-0 md:items-end">
+              <div class="flex gap-8">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <a href="impressum.html" class="text-white underline decoration-marker decoration-2">Impressum</a>
+              </div>
+              <p class="text-[10px] opacity-60">Made with ❤️ by Michael Förtsch with the help of AI</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

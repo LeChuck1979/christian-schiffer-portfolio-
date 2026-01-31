@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Über Mich | Christian Schiffer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"Courier Prime"', 'monospace'],
+              serif: ['"DM Serif Display"', 'serif'], 
+            },
+            colors: {
+              paper: {
+                DEFAULT: '#F0E6D2',
+                dark: '#E6D5B8',
+              },
+              ink: {
+                DEFAULT: '#1c1917',
+                light: '#44403c',
+                red: '#b91c1c',
+              },
+              marker: '#b91c1c',
+            },
+            backgroundImage: {
+              'noise': "url('graphics/noise.svg')",
+            }
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .bg-texture::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/noise.svg');
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 50;
+        mix-blend-mode: multiply;
+      }
+      .bg-crumpled {
+        position: relative;
+        background-color: #E6D5B8; 
+      }
+      .bg-crumpled::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('graphics/crumpled.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0; 
+      }
+      .paper-shadow {
+        box-shadow: 4px 4px 0px 0px rgba(28,25,23,0.15);
+      }
+      ::selection {
+        background: #b91c1c;
+        color: #F0E6D2;
+      }
+      /* Utility class for the unified card style */
+      .card-box {
+        background-color: #f6faf9; /* UPDATED COLOR */
+        border: 1px solid #1c1917; /* ink */
+        padding: 1.5rem;
+        position: relative;
+        box-shadow: 4px 4px 0px 0px rgba(28,25,23,1);
+        transition: transform 0.2s;
+      }
+      .card-box:hover {
+        transform: translateY(-2px);
+      }
+      .card-tag {
+        position: absolute;
+        top: -0.75rem;
+        left: 1rem;
+        background-color: #1c1917;
+        color: #F0E6D2;
+        font-size: 0.625rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.25rem 0.5rem;
+      }
+      .card-tag.highlight {
+        background-color: #b91c1c;
+        color: #F0E6D2;
+      }
+    </style>
+</head>
+  <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
+    
+    <!-- Header: Reduced padding (py-3 md:py-6) -->
+    <header class="fixed top-0 left-0 w-full px-6 py-3 md:px-12 md:py-6 flex flex-col md:flex-row justify-between items-center z-40 bg-paper/75 backdrop-blur-md border-b border-ink gap-4 md:gap-0">
+      <a href="index.html" class="font-mono font-bold text-xl md:text-2xl uppercase tracking-tighter text-ink flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <span class="bg-ink text-paper px-2 py-1 transform -rotate-1 inline-block">Christian</span>
+        <span class="tracking-widest">Schiffer</span>
+      </a>
+      <nav class="flex flex-wrap justify-center gap-4 md:gap-8 text-xs md:text-sm font-bold uppercase tracking-widest text-ink/80">
+        <a href="journalismus.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Journalismus</a>
+        <a href="workshops.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Workshops & Seminare</a>
+        <a href="talks.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Talks & Inputs</a>
+        <a href="ueber-mich.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker text-marker decoration-marker line-through">Über mich</a>
+        <a href="kontakt.html" class="hover:text-marker transition-colors hover:line-through decoration-2 decoration-marker">Kontakt</a>
+      </nav>
+    </header>
+
+    <!-- Content Spacer for Fixed Header: Reduced height (h-24 md:h-28) -->
+    <div class="h-24 md:h-28"></div>
+
+    <!-- CONTENT -->
+    <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        
+        <!-- Headline -->
+        <div class="mb-16">
+             <span class="block font-mono text-xs font-bold uppercase tracking-widest mb-2">Personalakte: 893-CS</span>
+             <!-- Unified H1: Removed border-b-4 -->
+             <h1 class="font-serif text-5xl md:text-7xl text-ink">Der Protagonist</h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-32">
+             
+             <!-- Image Column -->
+             <div class="lg:col-span-5 relative">
+                <div class="bg-white p-4 pb-16 shadow-lg transform rotate-2 border border-gray-300 relative z-10">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-red-900/10 rotate-[-1deg] backdrop-blur-sm mix-blend-multiply"></div>
+                    <!-- BILDANPASSUNG -->
+                    <img 
+                        src="graphics/portrait_about.jpg" 
+                        alt="Christian Schiffer Portrait" 
+                        class="w-full h-auto"
+                    />
+                     <div class="mt-4 font-serif text-xl text-center text-ink italic">"München, undatiert"</div>
+                </div>
+                <!-- Background decorative element -->
+                <div class="absolute top-4 -right-4 w-full h-full border-2 border-ink bg-paper-dark -z-0"></div>
+             </div>
+
+             <!-- Text Column -->
+             <div class="lg:col-span-7 font-mono text-ink leading-relaxed text-lg space-y-6 text-justify">
+                 <p class="first-letter:text-6xl first-letter:float-left first-letter:mr-3 first-letter:mt-[-10px] first-letter:font-serif first-letter:text-marker">
+                     Christian Schiffer ist mehr als die Summe seiner Podcasts. Als gebürtiger Münchner (Est. 1979) navigiert er seit Jahren zielsicher durch die Untiefen der digitalen Revolution. Er studierte Wirtschafts- und Sozialgeographie sowie Politikwissenschaften – eine Kombination, die ihm heute hilft, zu verstehen, warum im Internet alles so ist, wie es ist (und warum es meistens kompliziert ist).
+                 </p>
+                 <p>
+                     Seine journalistische Laufbahn führte ihn durch verschiedene Redaktionen, bis er beim Bayerischen Rundfunk seine Heimat fand. Als Leiter des Ressorts "Netzwelt" und ehemaliger Chefredakteur des preisgekrönten Bookazines <em>WASD</em> beherrscht er den Spagat zwischen klassischem Feuilleton und Nerd-Kultur wie kaum ein Zweiter.
+                 </p>
+                 <p>
+                     Ob er nun auf der re:publica über Shitstorms referiert, in Podcasts die Elon-Musk-Saga seziert oder nachts über die Darstellung von Hakenkreuzen in Videospielen debattiert: Schiffer bleibt stets analytisch, humorvoll und – wenn nötig – auch mal unbequem. Er ist Journalist, Autor, Speaker und Trainer, aber vor allem: Ein Erklärer in einer Welt, die zunehmend erklärungsbedürftig wird.
+                 </p>
+             </div>
+        </div>
+
+        <!-- Quotes Section (Leumundszeugen) -->
+        <div class="border-t border-ink pt-16 relative">
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-paper px-4">
+                <h2 class="font-serif text-3xl md:text-4xl text-ink text-center">Leumundszeugen & Aktennotizen</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                
+                <!-- Quote 1: Michael Förtsch -->
+                <div class="card-box">
+                    <div class="card-tag">Journalist & KI-Experte</div>
+                    <p class="text-sm leading-relaxed mb-4 italic mt-2">
+                        "Sein Metabolismus ist ein medizinisches Wunder. Ich habe gesehen, wie er Club-Mate und bayerischen Schweinsbraten in pure journalistische Exzellenz umwandelt – ohne nennenswerte Reibungsverluste."
+                    </p>
+                    <div class="border-t border-ink/20 pt-2 mt-2">
+                        <div class="text-xs font-bold uppercase">
+                            Michael Förtsch
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quote 2: Klaus Uhrig -->
+                <div class="card-box">
+                     <div class="card-tag">Filmemacher & Redakteur</div>
+                     <p class="text-sm leading-relaxed mb-4 italic mt-2">
+                        "Christians Feingefühl ist legendär. Er besitzt die seltene Gabe, einem Gesprächspartner völlig charmant zu erklären, dass er gerade kompletten Unsinn geredet hat, sodass dieser sich am Ende dafür bedankt."
+                    </p>
+                    <div class="border-t border-ink/20 pt-2 mt-2">
+                        <div class="text-xs font-bold uppercase">
+                            Klaus Uhrig
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quote 3: Fritz Espenlaub -->
+                <div class="card-box">
+                    <div class="card-tag highlight">Vertraulich</div>
+                    <p class="text-sm leading-relaxed mb-4 italic mt-2">
+                        "Unfassbare Trinkfestigkeit. Wenn andere Journalisten schon längst unter dem Tisch liegen, fängt Christian gerade erst an, die geopolitischen Implikationen der 90er Jahre zu analysieren. Ein Fels in der Brandung."
+                    </p>
+                    <div class="border-t border-ink/20 pt-2 mt-2">
+                        <div class="text-xs font-bold uppercase">
+                            Fritz Espenlaub
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Footer / Contact -->
+    <section id="contact" class="bg-ink text-paper py-24 px-6 md:px-12 relative overflow-hidden">
+         <!-- TEXTURANPASSUNG: Footer Rauschen -->
+         <div class="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style="background-image: url('graphics/footer-texture.svg')"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+          <div class="border-t border-ink-light pt-20 grid grid-cols-1 md:grid-cols-12 gap-12">
+            <div class="md:col-span-4">
+               <div class="flex items-center mb-4">
+                <span class="bg-paper text-ink px-2 py-0.5 text-xs font-bold uppercase tracking-widest transform -rotate-2">
+                  Kontakt
+                </span>
+              </div>
+              <p class="font-mono text-lg text-paper/80 mb-8">
+                Verfügbar für Moderationen, Vorträge (u.a. re:publica) und journalistische Projekte.
+              </p>
+            </div>
+            
+            <div class="md:col-span-8 flex flex-col items-start">
+              <h2 class="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 text-paper tracking-tighter">
+                Lass uns sprechen.
+              </h2>
+              <a 
+                href="mailto:kontakt@christian-schiffer.de" 
+                class="text-xl md:text-3xl font-mono border-b-2 border-ink-light pb-2 hover:border-marker hover:text-marker transition-colors"
+              >
+                kontakt@christian-schiffer.de
+              </a>
+              
+              <div class="flex flex-wrap gap-8 mt-12 font-mono text-sm uppercase tracking-widest">
+                <a href="https://x.com/Wurzelbier" target="_blank" class="border-b border-ink-light pb-1 hover:text-marker hover:border-marker transition-colors text-paper">
+                  Twitter
+                </a>
+                <a href="https://www.linkedin.com/in/christian-schiffer-417a0525/" target="_blank" class="border-b border-ink-light pb-1 hover:text-marker hover:border-marker transition-colors text-paper">
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-24 pt-8 border-t border-ink-light flex flex-col md:flex-row justify-between text-xs uppercase tracking-widest text-paper/50 font-mono">
+            <p>&copy; 2025 Christian Schiffer. All rights reserved.</p>
+             <div class="flex flex-col items-center gap-2 mt-4 md:mt-0 md:items-end">
+              <div class="flex gap-8">
+                <span>München, Deutschland</span>
+                <a href="impressum.html" class="hover:text-marker transition-colors">Impressum</a>
+              </div>
+              <p class="text-[10px] opacity-60">Made with ❤️ by Michael Förtsch with the help of AI</p>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
