@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXTENSION DU DOMAINE DE LA LUTTE — Das RPG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #050508;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Press Start 2P', monospace;
+  }
+  canvas {
+    display: block;
+    image-rendering: pixelated;
+    border: 2px solid #1a1a2e;
+    cursor: default;
+  }
+  #back {
+    margin-top: 12px;
+    color: #555;
+    font-size: 8px;
+    font-family: 'Press Start 2P', monospace;
+    text-decoration: none;
+  }
+  #back:hover { color: #aaa; }
+</style>
+</head>
+<body>
+<canvas id="c" width="640" height="480"></canvas>
+<a id="back" href="index.html">← zurück zum portfolio</a>
+
+<script>
+// ================================================================
+// EXTENSION DU DOMAINE DE LA LUTTE — Ein Houellebecq-JRPG
+// ================================================================
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+// ---- PALETTE ----
+const P = {
+  bg:        '#06060f',
+  panel:     '#0d0d1c',
+  panelMid:  '#12122a',
+  border:    '#252545',
+  borderLt:  '#353565',
+  text:      '#d8d8c0',
+  dim:       '#707060',
+  accent:    '#c09830',
+  cursor:    '#f0e060',
+  hpFull:    '#28a028',
+  hpMid:     '#d0a000',
+  hpLow:     '#c02828',
+  mpBar:     '#2858b8',
+  menuSel:   '#1e1e40',
+  white:     '#e8e8e8',
+  black:     '#000000',
+  red:       '#c02828',
+  green:     '#28a028',
+  gold:      '#c09830',
+  // terrain
+  tRoad:     '#1a1a18',
+  tSuburb:   '#1e1e14',
+  tOffice:   '#14141e',
+  tPark:     '#141e14',
+  tTherapist:'#1e1414',
+  tAirport:  '#14181e',
+  tResort:   '#1e1814',
+  tWall:     '#0a0a0a',
+};
+
+// ---- MAP ----
+// 0=road 1=suburb 2=office 3=park 4=therapist 5=airport 6=resort/boss 9=wall
+const MAP = [
+  [9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
+  [9,1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,1,9],
+  [9,1,1,1,0,0,0,0,0,1,1,4,4,1,1,1,1,1,1,9],
+  [9,1,1,1,0,3,3,0,0,0,0,4,4,0,0,1,1,1,1,9],
+  [9,1,2,0,0,3,3,0,1,1,0,0,0,0,5,5,1,1,1,9],
+  [9,1,2,0,1,1,1,0,1,1,0,1,1,0,5,5,1,1,1,9],
+  [9,1,0,0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,9],
+  [9,1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,0,6,6,9],
+  [9,1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,0,6,6,9],
+  [9,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,9],
+  [9,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,9],
+  [9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
+];
+const MW = MAP[0].length, MH = MAP.length;
+const TILE = 32;
+
+// where to start
+const START_X = 4, START_Y = 9;
+
+// ---- ENEMIES ----
+const ENEMIES = {
+  optimiste: { name:"L'OPTIMISTE",     hp:30,  atk:6,  def:2,  xp:12, col:'#d0a000', quote:"La vie est belle! Sourions!" },
+  collegue:  { name:"LE COLLÈGUE",     hp:45,  atk:9,  def:4,  xp:18, col:'#6070b0', quote:"Synergie transversale, mon ami." },
+  manager:   { name:"LE MANAGER",      hp:60,  atk:13, def:7,  xp:28, col:'#4060d0', quote:"Optimisons nos processus." },
+  militante: { name:"LA MILITANTE",    hp:50,  atk:11, def:8,  xp:22, col:'#c040c0', quote:"Votre existence est problématique." },
+  ideologue: { name:"L'IDÉOLOGUE",     hp:70,  atk:16, def:10, xp:38, col:'#d06020', quote:"Tout est politique. Vous êtes complice." },
+  touriste:  { name:"LE TOURISTE",     hp:55,  atk:12, def:6,  xp:32, col:'#a09040', quote:"Je cherche juste... une connexion." },
+  boss:      { name:"LA MODERNITÉ",    hp:200, atk:28, def:18, xp:500,col:'#d0d0e8', quote:"Tu ne peux pas me vaincre. Je suis partout." },
+};
+
+const ZONE_ENEMIES = {
+  0: ['optimiste','collegue'],
+  1: ['optimiste','collegue'],
+  2: ['manager','collegue'],
+  3: ['militante','ideologue'],
+  5: ['touriste','ideologue'],
+  6: ['boss'],
+};
+
+// ---- ACTIONS ----
+const ACTIONS = [
+  { name:'DISSERTER',       desc:'Philosophischer Angriff',  cost:15, fn:(p,e)=>{ const d=Math.max(1, p.libido*3+8 - e.def); return {pdmg:0, edmg:d, log:`Deine Dissertation trifft ${e.name} für ${d}!`}; } },
+  { name:'CYNISME',         desc:'Zynismus (kostenlos)',     cost:0,  fn:(p,e)=>{ const d=Math.max(1, p.libido*2+4 - e.def); return {pdmg:0, edmg:d, log:`Dein Zynismus verletzt ${e.name} für ${d}.`}; } },
+  { name:'ANTIDÉPRESSEURS', desc:'Stellt HP wieder her',     cost:5,  fn:(p,e)=>{ const h=20+p.level*3; return {pdmg:0, edmg:0, heal:h, log:`Du nimmst Antidepressiva. +${h} Santé.`}; } },
+  { name:'FUIR',            desc:'Flucht (manchmal)',        cost:0,  fn:(p,e)=>{ return {pdmg:0, edmg:0, flee:true, log:'Tu prends la fuite...'}; } },
+];
+
+// ---- DIALOGUE SCRIPTS ----
+const SCRIPTS = {
+  intro: [
+    "Es war ein Montag im Oktober.",
+    "Die Welt präsentierte sich wie immer als Hindernis.",
+    "Du bist IT-Berater. Du hast keinen Namen, den du für wichtig hältst.",
+    "Deine Sérotonine ist niedrig. Sie ist meistens niedrig.",
+    "Irgendwo in Frankreich wartet die Modernität auf dich.",
+    "Aber zuerst: die Banlieue.",
+    "→ Pfeiltasten: Bewegen   ENTER: Bestätigen",
+  ],
+  therapist_heal: [
+    "DR. BOUSSARD: Wie fühlen Sie sich heute?",
+    "DU: Leer. Aber das ist normal.",
+    "DR. BOUSSARD: Ich erhöhe Ihre Sérotonine-Dosis.",
+    "Deine Santé und Sérotonine wurden vollständig wiederhergestellt.",
+  ],
+  airport: [
+    "Am Flughafen riecht es nach Pommes und Hoffnungslosigkeit.",
+    "Du kaufst ein Ticket nach Thailand.",
+    "Dort, weit weg von Frankreich, suchen Menschen nach etwas.",
+    "Meistens finden sie es nicht. Oder sie finden das Falsche.",
+    "Der Flug dauert 11 Stunden. Du schläfst die meiste Zeit.",
+  ],
+  pre_boss: [
+    "DU STEHST VOR DEM RESORT 'EDEN CLUB'.",
+    "Das Wasser ist türkis. Die Menschen lächeln gezwungen.",
+    "Und dann siehst du es: Die Modernität selbst.",
+    "Eine amorphe Gestalt aus Werbung, Algorithmen und Einsamkeit.",
+    "LA MODERNITÉ: Ich habe auf dich gewartet.",
+    "DU: Ich weiß.",
+    "LA MODERNITÉ: Es gibt keinen Ausweg aus mir.",
+    "DU: Ich versuche es trotzdem.",
+  ],
+  win_boss: [
+    "Die Modernität löst sich auf.",
+    "Für einen Moment — vielleicht fünf Sekunden — ist es still.",
+    "Das Wasser ist wirklich türkis.",
+    "Du weißt, dass sie zurückkehren wird.",
+    "Aber für heute, gerade jetzt: Du hast gewonnen.",
+    "Oder zumindest nicht verloren.",
+    "ENDE.",
+    "→ ENTER für Titelbildschirm",
+  ],
+  gameover: [
+    "Die Santé ist auf null gesunken.",
+    "Du liegst auf dem Boden der modernen Welt.",
+    "Um dich herum: Werbung, Bildschirme, Gleichgültigkeit.",
+    "Es war kein besonders schlechter Tod.",
+    "Aber es war auch nicht gut.",
+    "→ ENTER für Neustart",
+  ],
+  win_enemy: [
+    "Du hast gewonnen. Du fühlst nichts Besonderes.",
+    "Das ist das charakteristische Merkmal deines Zustands.",
+  ],
+};
+
+// ---- GAME STATE ----
+let G = null;
+
+function newGame() {
+  G = {
+    scene: 'TITLE',
+    frame: 0,
+    player: {
+      x: START_X, y: START_Y,
+      hp: 80, maxHp: 80,
+      sero: 60, maxSero: 60,
+      libido: 5, nihilism: 3,
+      xp: 0, level: 1,
+    },
+    battle: null,
+    dialogue: null,
+    overworld: {
+      stepsLeft: Math.floor(Math.random()*6)+4,
+      lastTile: 1,
+    },
+    titleBlink: true,
+    blinkTimer: 0,
+    defeatedBoss: false,
+    visitedTherapist: false,
+    visitedAirport: false,
+    inputCooldown: 0,
+    animTimer: 0,
+  };
+}
+
+newGame();
+
+// ---- INPUT ----
+const KEYS = {};
+document.addEventListener('keydown', e => {
+  if (!KEYS[e.code]) {
+    KEYS[e.code] = true;
+    handleKey(e.code);
+  }
+  e.preventDefault();
+});
+document.addEventListener('keyup', e => { KEYS[e.code] = false; });
+
+function handleKey(code) {
+  if (G.inputCooldown > 0) return;
+  G.inputCooldown = 12;
+
+  const { scene } = G;
+
+  if (scene === 'TITLE') {
+    if (code === 'Enter' || code === 'Space') startIntro();
+    return;
+  }
+  if (scene === 'DIALOGUE') {
+    advanceDialogue(); return;
+  }
+  if (scene === 'OVERWORLD') {
+    handleOverworld(code); return;
+  }
+  if (scene === 'BATTLE') {
+    handleBattle(code); return;
+  }
+  if (scene === 'GAMEOVER' || scene === 'VICTORY') {
+    if (code === 'Enter' || code === 'Space') { newGame(); }
+    return;
+  }
+}
+
+function startIntro() {
+  startDialogue('intro', 'OVERWORLD');
+}
+
+function startDialogue(scriptKey, nextScene, onDone) {
+  G.dialogue = {
+    lines: SCRIPTS[scriptKey],
+    index: 0,
+    nextScene,
+    onDone: onDone || null,
+    typed: 0,
+    typeSpeed: 1,
+  };
+  G.scene = 'DIALOGUE';
+}
+
+function advanceDialogue() {
+  const d = G.dialogue;
+  if (!d) return;
+  // if still typing, complete
+  if (d.typed < d.lines[d.index].length) {
+    d.typed = d.lines[d.index].length;
+    return;
+  }
+  d.index++;
+  if (d.index >= d.lines.length) {
+    // done
+    if (d.onDone) d.onDone();
+    else G.scene = d.nextScene;
+    G.dialogue = null;
+  } else {
+    d.typed = 0;
+  }
+}
+
+// ---- OVERWORLD ----
+function handleOverworld(code) {
+  const p = G.player;
+  let nx = p.x, ny = p.y;
+  if (code==='ArrowUp'    || code==='KeyW') ny--;
+  if (code==='ArrowDown'  || code==='KeyS') ny++;
+  if (code==='ArrowLeft'  || code==='KeyA') nx--;
+  if (code==='ArrowRight' || code==='KeyD') nx++;
+
+  if (nx===p.x && ny===p.y) return;
+
+  // bounds + wall check
+  if (nx<0||ny<0||nx>=MW||ny>=MH) return;
+  const tile = MAP[ny][nx];
+  if (tile === 9) return;
+
+  p.x = nx; p.y = ny;
+
+  // special tiles
+  if (tile === 4 && !G.visitedTherapist) {
+    G.visitedTherapist = true;
+    startDialogue('therapist_heal', 'OVERWORLD', () => {
+      G.player.hp = G.player.maxHp;
+      G.player.sero = G.player.maxSero;
+      G.scene = 'OVERWORLD';
+    });
+    return;
+  }
+  if (tile === 5 && !G.visitedAirport) {
+    G.visitedAirport = true;
+    startDialogue('airport', 'OVERWORLD');
+    return;
+  }
+  if (tile === 6 && !G.defeatedBoss) {
+    startDialogue('pre_boss', 'BATTLE', () => {
+      startBattle('boss');
+    });
+    return;
+  }
+
+  // random battle
+  G.overworld.stepsLeft--;
+  if (G.overworld.stepsLeft <= 0) {
+    G.overworld.stepsLeft = Math.floor(Math.random()*6)+4;
+    const pool = ZONE_ENEMIES[tile] || ZONE_ENEMIES[0];
+    const eid = pool[Math.floor(Math.random()*pool.length)];
+    if (eid === 'boss' && G.defeatedBoss) return; // don't repeat boss
+    if (eid !== 'boss') startBattle(eid);
+  }
+}
+
+function startBattle(enemyId) {
+  const tmpl = ENEMIES[enemyId];
+  G.battle = {
+    enemyId,
+    enemy: { ...tmpl, hp: tmpl.hp },
+    phase: 'SELECT', // SELECT | RESOLVING | ENEMY | LOG_WIN | LOG_LOSE
+    cursor: 0,
+    log: tmpl.quote,
+    animTimer: 0,
+    playerFlash: 0,
+    enemyFlash: 0,
+  };
+  G.scene = 'BATTLE';
+}
+
+function handleBattle(code) {
+  const b = G.battle;
+  if (!b || b.phase !== 'SELECT') return;
+
+  if (code==='ArrowUp')   b.cursor = (b.cursor+ACTIONS.length-1)%ACTIONS.length;
+  if (code==='ArrowDown') b.cursor = (b.cursor+1)%ACTIONS.length;
+
+  if (code==='Enter' || code==='Space') {
+    executeBattleAction(b.cursor);
+  }
+}
+
+function executeBattleAction(idx) {
+  const b = G.battle;
+  const p = G.player;
+  const e = b.enemy;
+  const act = ACTIONS[idx];
+
+  // serotonin check
+  if (p.sero < act.cost) {
+    b.log = 'Zu wenig Sérotonine!'; return;
+  }
+  p.sero = Math.max(0, p.sero - act.cost);
+
+  const result = act.fn(p, e);
+
+  if (result.flee) {
+    if (Math.random() < 0.5) {
+      G.scene = 'OVERWORLD';
+      G.battle = null;
+      return;
+    } else {
+      b.log = 'Flucht gescheitert!';
+      b.phase = 'ENEMY';
+      G.animTimer = 30;
+      return;
+    }
+  }
+
+  if (result.heal) {
+    p.hp = Math.min(p.maxHp, p.hp + result.heal);
+  }
+  if (result.edmg > 0) {
+    e.hp = Math.max(0, e.hp - result.edmg);
+    b.enemyFlash = 12;
+  }
+
+  b.log = result.log;
+
+  if (e.hp <= 0) {
+    battleWin();
+    return;
+  }
+
+  b.phase = 'ENEMY';
+  G.animTimer = 40;
+}
+
+function battleWin() {
+  const b = G.battle;
+  const p = G.player;
+  p.xp += b.enemy.xp;
+  // level up
+  if (p.xp >= p.level * 50) {
+    p.level++;
+    p.maxHp += 15;
+    p.hp = p.maxHp;
+    p.maxSero += 10;
+    p.sero = p.maxSero;
+    p.libido++;
+    b.log = `LEVEL UP! Du bist jetzt Level ${p.level}!`;
+  } else {
+    b.log = `${b.enemy.name} besiegt! +${b.enemy.xp} XP`;
+  }
+
+  if (b.enemyId === 'boss') {
+    G.defeatedBoss = true;
+    b.phase = 'LOG_WIN_BOSS';
+  } else {
+    b.phase = 'LOG_WIN';
+  }
+  G.animTimer = 80;
+}
+
+function enemyTurn() {
+  const b = G.battle;
+  const p = G.player;
+  const e = b.enemy;
+
+  const atk = e.atk + Math.floor(Math.random()*6) - 3;
+  const dmg = Math.max(1, atk - p.nihilism);
+  p.hp = Math.max(0, p.hp - dmg);
+  b.playerFlash = 12;
+  b.log = `${e.name} greift an! Du verlierst ${dmg} Santé.`;
+
+  if (p.hp <= 0) {
+    b.phase = 'LOG_LOSE';
+    G.animTimer = 80;
+  } else {
+    b.phase = 'SELECT';
+  }
+}
+
+// ---- UPDATE ----
+function update() {
+  G.frame++;
+  G.blinkTimer++;
+  if (G.blinkTimer > 40) { G.titleBlink = !G.titleBlink; G.blinkTimer = 0; }
+  if (G.inputCooldown > 0) G.inputCooldown--;
+
+  if (G.dialogue) {
+    const d = G.dialogue;
+    if (d.typed < d.lines[d.index].length) {
+      d.typed += 2;
+      if (d.typed > d.lines[d.index].length) d.typed = d.lines[d.index].length;
+    }
+  }
+
+  if (G.scene === 'BATTLE' && G.battle) {
+    const b = G.battle;
+    if (b.enemyFlash > 0) b.enemyFlash--;
+    if (b.playerFlash > 0) b.playerFlash--;
+
+    if (G.animTimer > 0) {
+      G.animTimer--;
+      if (G.animTimer === 0) {
+        if (b.phase === 'ENEMY') {
+          enemyTurn();
+        } else if (b.phase === 'LOG_WIN') {
+          G.scene = 'OVERWORLD';
+          G.battle = null;
+        } else if (b.phase === 'LOG_WIN_BOSS') {
+          startDialogue('win_boss', 'TITLE', () => { newGame(); });
+        } else if (b.phase === 'LOG_LOSE') {
+          startDialogue('gameover', 'TITLE', () => { newGame(); });
+        }
+      }
+    }
+  }
+}
+
+// ---- DRAWING ----
+function cls(col) {
+  ctx.fillStyle = col || P.bg;
+  ctx.fillRect(0,0,640,480);
+}
+
+function textPx(txt, x, y, col, size) {
+  ctx.fillStyle = col || P.text;
+  ctx.font = `${size||8}px 'Press Start 2P', monospace`;
+  ctx.fillText(txt, x, y);
+}
+
+function textCenter(txt, y, col, size) {
+  ctx.fillStyle = col || P.text;
+  ctx.font = `${size||8}px 'Press Start 2P', monospace`;
+  const w = ctx.measureText(txt).width;
+  ctx.fillText(txt, (640-w)/2, y);
+}
+
+function rect(x,y,w,h,col) {
+  ctx.fillStyle = col;
+  ctx.fillRect(x,y,w,h);
+}
+
+function box(x,y,w,h) {
+  rect(x,y,w,h,P.panel);
+  ctx.strokeStyle = P.border;
+  ctx.lineWidth = 2;
+  ctx.strokeRect(x,y,w,h);
+  ctx.strokeStyle = P.borderLt;
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x+2,y+2,w-4,h-4);
+}
+
+function hpBar(x,y,w,h,cur,max,col) {
+  rect(x,y,w,h,'#111');
+  const pct = Math.max(0,cur/max);
+  const barCol = pct>0.5 ? P.hpFull : pct>0.25 ? P.hpMid : P.hpLow;
+  rect(x+1,y+1,Math.floor((w-2)*pct),h-2, col||barCol);
+}
+
+// ---- SPRITE DRAWING ----
+// Draw pixel sprites using 4x4 blocks
+function drawProtagoniste(x, y, flash) {
+  if (flash && G.frame%4<2) return;
+  const s = 4;
+  // head (skin tone: #c8a878)
+  rect(x+4*s, y+0*s, 4*s, 4*s, '#c8a878');
+  // hair
+  rect(x+4*s, y+0*s, 4*s, s,   '#3a2a1a');
+  rect(x+4*s, y+s,   s,   s,   '#3a2a1a');
+  rect(x+7*s, y+s,   s,   s,   '#3a2a1a');
+  // eyes
+  rect(x+5*s, y+2*s, s, s,    '#202020');
+  rect(x+7*s, y+2*s, s, s,    '#202020');
+  // mouth (neutral)
+  rect(x+5*s, y+3*s, 3*s, s/2,'#8a6858');
+  // body (grey suit)
+  rect(x+3*s, y+4*s, 6*s, 5*s,'#484858');
+  // collar/tie
+  rect(x+5*s, y+4*s, 2*s, 2*s,'#f0f0e0');
+  rect(x+5*s+2, y+5*s, s-2, 3*s,'#c02020');
+  // arms
+  rect(x+1*s, y+4*s, 2*s, 4*s,'#484858');
+  rect(x+9*s, y+4*s, 2*s, 4*s,'#484858');
+  // hands
+  rect(x+1*s, y+8*s, 2*s, s,  '#c8a878');
+  rect(x+9*s, y+8*s, 2*s, s,  '#c8a878');
+  // legs
+  rect(x+3*s, y+9*s, 2*s, 4*s,'#282830');
+  rect(x+7*s, y+9*s, 2*s, 4*s,'#282830');
+  // shoes
+  rect(x+2*s, y+12*s,3*s,  s, '#181818');
+  rect(x+7*s, y+12*s,3*s,  s, '#181818');
+  // cigarette
+  rect(x+11*s, y+8*s, 3*s, s/2,'#f0f0e0');
+  rect(x+13*s, y+7*s, s,   s/2,'#ff8800');
+}
+
+function drawEnemySprite(x, y, col, flash, id) {
+  if (flash && G.frame%4<2) return;
+  const s = 5;
+  if (id === 'boss') {
+    drawBossSprite(x, y);
+    return;
+  }
+  // Generic enemy: stylized humanoid
+  // head
+  rect(x+3*s, y+0,    4*s, 4*s, col);
+  // eyes (white)
+  rect(x+3*s+s/2|0, y+s,   s, s, '#ffffff');
+  rect(x+3*s+5*(s/2|0)/2|0, y+s, s, s, '#ffffff');
+  // pupils
+  rect(x+3*s+s/2|0, y+s,   s/2|0, s/2|0, '#000');
+  // body
+  rect(x+2*s, y+4*s,  6*s, 5*s, col);
+  // arms
+  rect(x+0,   y+4*s,  2*s, 4*s, col);
+  rect(x+8*s, y+4*s,  2*s, 4*s, col);
+  // legs
+  rect(x+2*s, y+9*s,  2*s, 4*s, col);
+  rect(x+6*s, y+9*s,  2*s, 4*s, col);
+  // dark outline effect
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x+2*s, y, 6*s, 13*s);
+}
+
+function drawBossSprite(x, y) {
+  if (G.battle && G.battle.enemyFlash && G.frame%4<2) return;
+  const s = 6;
+  const f = G.frame;
+  // Amorphous glitchy boss
+  const offsets = [0, Math.sin(f*0.05)*3, Math.sin(f*0.07+1)*2, Math.sin(f*0.03+2)*4];
+  const cols = ['#d0d0e8','#a0a0c0','#e8e8ff','#8080a8'];
+  for (let i=0; i<4; i++) {
+    const ox = offsets[i]|0;
+    rect(x+ox+2*s, y+i*s,    8*s, 3*s, cols[i]);
+    rect(x-ox+s,   y+4*s+i*s, 10*s, 2*s, cols[(i+1)%4]);
+  }
+  // glowing eyes
+  rect(x+3*s, y+2*s, s,   s,   '#ff0000');
+  rect(x+8*s, y+2*s, s,   s,   '#ff0000');
+  // text fragments floating (simulate)
+  ctx.fillStyle = '#ffffff88';
+  ctx.font = '6px monospace';
+  ctx.fillText('MARCHÉ', x, y+20);
+  ctx.fillText('LIBÉRALISME', x-5, y+35);
+  ctx.fillText('INSTAGRAM', x+10, y+50);
+}
+
+// ---- SCENE: TITLE ----
+function drawTitle() {
+  cls('#050508');
+  // Stars
+  ctx.fillStyle = '#ffffff';
+  for (let i=0; i<40; i++) {
+    const sx = (i*137)%640, sy = (i*71+i*i*3)%200;
+    const blink = (G.frame + i*7)%60 < 30;
+    if (blink) ctx.fillRect(sx, sy, 1, 1);
+  }
+
+  // Cityscape silhouette
+  ctx.fillStyle = '#0d0d18';
+  const buildings = [[0,80,60,380],[60,100,40,380],[100,70,80,380],[180,90,50,380],[230,110,60,380],[290,75,45,380],[335,95,70,380],[405,85,55,380],[460,105,45,380],[505,65,80,380],[585,90,55,380]];
+  for (const [bx,bh,bw] of buildings) ctx.fillRect(bx, 480-bh, bw, bh);
+
+  // Windows
+  ctx.fillStyle = '#c09830';
+  for (let i=0; i<30; i++) {
+    if ((G.frame/30+i)%3 > 0.5) {
+      const wx = (i*43+20)%600, wy = 380 - (i*37)%120;
+      ctx.fillRect(wx,wy,4,6);
+    }
+  }
+
+  // Title box
+  box(40, 150, 560, 200);
+
+  textCenter('EXTENSION DU', 195, P.accent, 14);
+  textCenter('DOMAINE DE LA LUTTE', 220, P.accent, 14);
+  ctx.fillStyle = P.border;
+  ctx.fillRect(60, 228, 520, 2);
+  textCenter('EIN HOUELLEBECQ-JRPG', 250, P.dim, 7);
+  textCenter('nach dem Roman von Michel Houellebecq', 268, P.dim, 6);
+
+  if (G.titleBlink) {
+    textCenter('[ ENTER ] NEUES SPIEL', 320, P.cursor, 8);
+  }
+
+  textCenter('PFEILTASTEN  ENTER  BEWEGEN & BESTÄTIGEN', 460, P.dim, 6);
+}
+
+// ---- SCENE: DIALOGUE ----
+function drawDialogue() {
+  // draw overworld behind
+  if (G.player) drawOverworldBg();
+
+  const d = G.dialogue;
+  if (!d) return;
+
+  box(20, 340, 600, 120);
+
+  // Speaker line if it has colon
+  const line = d.lines[d.index] || '';
+  const colonIdx = line.indexOf(':');
+  let speaker = '', text = line;
+  if (colonIdx > 0 && colonIdx < 20) {
+    speaker = line.substring(0,colonIdx);
+    text = line.substring(colonIdx+1).trim();
+  }
+
+  if (speaker) {
+    textPx(speaker, 36, 365, P.accent, 7);
+    wrapText(text.substring(0, d.typed), 36, 385, 568, 16, P.text, 7);
+  } else {
+    wrapText(line.substring(0, d.typed), 36, 370, 568, 16, P.text, 7);
+  }
+
+  if (d.typed >= line.length && G.titleBlink) {
+    textPx('▼', 598, 445, P.cursor, 8);
+  }
+
+  // progress
+  textPx(`${d.index+1}/${d.lines.length}`, 568, 350, P.dim, 6);
+}
+
+function wrapText(txt, x, y, maxW, lineH, col, size) {
+  ctx.fillStyle = col;
+  ctx.font = `${size}px 'Press Start 2P', monospace`;
+  const words = txt.split(' ');
+  let line = '';
+  let cy = y;
+  for (const word of words) {
+    const test = line ? line + ' ' + word : word;
+    if (ctx.measureText(test).width > maxW && line) {
+      ctx.fillText(line, x, cy);
+      cy += lineH;
+      line = word;
+    } else {
+      line = test;
+    }
+  }
+  if (line) ctx.fillText(line, x, cy);
+}
+
+// ---- SCENE: OVERWORLD ----
+const TILE_COLORS = ['#1a1a18','#1e1e14','#14141e','#141e14','#1e1414','#14181e','#1e1814','#0a0a0a','','#0a0a0a'];
+const TILE_LABELS  = ['STRASSE','BANLIEUE','BÜRO','PARK','THERAPEUT','FLUGHAFEN','RESORT'];
+
+function drawOverworldBg() {
+  cls();
+  const camX = Math.max(0, Math.min(G.player.x - 10, MW - 20));
+  const camY = Math.max(0, Math.min(G.player.y - 7,  MH - 15));
+
+  // tiles
+  for (let ty=0; ty<MH; ty++) {
+    for (let tx=0; tx<MW; tx++) {
+      const tile = MAP[ty][tx];
+      const col = TILE_COLORS[tile] || '#0a0a0a';
+      const sx = (tx-camX)*TILE, sy = (ty-camY)*TILE;
+      rect(sx, sy, TILE, TILE, col);
+
+      // tile detail
+      if (tile === 2) { // office: windows
+        ctx.fillStyle = '#20204030';
+        ctx.fillRect(sx+4,sy+4,8,8);
+        ctx.fillRect(sx+20,sy+4,8,8);
+        ctx.fillRect(sx+4,sy+20,8,8);
+        ctx.fillRect(sx+20,sy+20,8,8);
+      }
+      if (tile === 3) { // park: green dots
+        ctx.fillStyle = '#1a3a1a40';
+        ctx.fillRect(sx+6,sy+6,6,6);
+        ctx.fillRect(sx+20,sy+18,6,6);
+      }
+      if (tile === 4) { // therapist: cross
+        ctx.fillStyle = '#c0202020';
+        ctx.fillRect(sx+13,sy+6,6,20);
+        ctx.fillRect(sx+6,sy+13,20,6);
+      }
+      if (tile === 5) { // airport: plane
+        ctx.fillStyle = '#2060a020';
+        ctx.fillRect(sx+10,sy+12,12,4);
+        ctx.fillRect(sx+14,sy+8,4,4);
+      }
+      if (tile === 6) { // resort: palm
+        ctx.fillStyle = '#20a04040';
+        ctx.fillRect(sx+14,sy+6,4,16);
+        ctx.fillRect(sx+6,sy+8,20,4);
+      }
+      // grid lines
+      ctx.strokeStyle = '#ffffff08';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(sx,sy,TILE,TILE);
+    }
+  }
+  // player
+  const px = (G.player.x - camX)*TILE, py = (G.player.y - camY)*TILE;
+  // player dot
+  rect(px+8,py+4,16,20,'#c8a878');  // body
+  rect(px+10,py+2,12,8,'#483828'); // head
+  rect(px+6,py+4,4,14,'#484858'); // left arm
+  rect(px+22,py+4,4,14,'#484858'); // right arm
+  rect(px+8,py+20,6,10,'#282830'); // left leg
+  rect(px+18,py+20,6,10,'#282830'); // right leg
+}
+
+function drawOverworld() {
+  drawOverworldBg();
+
+  const p = G.player;
+  // HUD
+  box(0, 420, 640, 60);
+  textPx('SANTÉ', 10, 440, P.dim, 6);
+  hpBar(70, 431, 120, 10, p.hp, p.maxHp);
+  textPx(`${p.hp}/${p.maxHp}`, 72, 450, P.text, 6);
+
+  textPx('SÉRO', 210, 440, P.dim, 6);
+  hpBar(255, 431, 100, 10, p.sero, p.maxSero, P.mpBar);
+  textPx(`${p.sero}/${p.maxSero}`, 257, 450, P.text, 6);
+
+  textPx(`LVL ${p.level}`, 380, 440, P.accent, 6);
+  textPx(`XP ${p.xp}`, 380, 455, P.dim, 6);
+
+  // location label
+  const tile = MAP[p.y][p.x];
+  const lbl = TILE_LABELS[tile] || '???';
+  textPx(`◆ ${lbl}`, 470, 440, P.gold, 7);
+
+  // mini hint
+  if (tile===4) textPx('THERAPEUT: ENTER = HEILEN', 10, 414, P.accent, 5);
+  if (tile===6 && !G.defeatedBoss) textPx('!!! BOSS AREA !!!', 220, 414, P.red, 7);
+}
+
+// ---- SCENE: BATTLE ----
+function drawBattle() {
+  cls('#08080f');
+
+  const b = G.battle;
+  const p = G.player;
+  const e = b.enemy;
+
+  // Background stripes
+  for (let i=0; i<480; i+=16) {
+    ctx.fillStyle = i%32===0 ? '#0a0a12' : '#07070e';
+    ctx.fillRect(0,i,640,16);
+  }
+
+  // Enemy sprite area (right)
+  const ex = 340, ey = 60;
+  drawEnemySprite(ex, ey, e.col, b.enemyFlash, b.enemyId);
+
+  // Enemy info box
+  box(320, 20, 300, 60);
+  textPx(e.name, 330, 42, e.col, 7);
+  hpBar(330, 50, 260, 12, e.hp, e.maxHp);
+  textPx(`${e.hp}/${e.maxHp}`, 332, 72, P.text, 6);
+
+  // Player sprite (left, small)
+  const hasFlash = b.playerFlash > 0;
+  drawProtagoniste(20, 100, hasFlash);
+
+  // Player stats box
+  box(20, 230, 280, 80);
+  textPx('LE PROTAGONISTE', 30, 252, P.text, 6);
+  textPx('SANTÉ', 30, 270, P.dim, 6);
+  hpBar(90, 261, 180, 10, p.hp, p.maxHp);
+  textPx(`${p.hp}/${p.maxHp}`, 92, 278, P.text, 5);
+  textPx('SÉRO', 30, 295, P.dim, 6);
+  hpBar(90, 286, 180, 10, p.sero, p.maxSero, P.mpBar);
+  textPx(`${p.sero}/${p.maxSero}`, 92, 300, P.text, 5);
+
+  // Battle log
+  box(20, 320, 600, 50);
+  wrapText(b.log, 30, 345, 580, 16, P.text, 7);
+
+  // Action menu (only when SELECT)
+  if (b.phase === 'SELECT') {
+    box(320, 110, 300, 200);
+    textPx('AKTION', 330, 132, P.accent, 7);
+    ACTIONS.forEach((a,i) => {
+      const sel = i === b.cursor;
+      if (sel) rect(322, 140+i*38, 296, 36, P.menuSel);
+      textPx((sel?'▶ ':' ')+a.name, 330, 158+i*38, sel?P.cursor:P.text, 7);
+      textPx(a.desc, 342, 170+i*38, P.dim, 5);
+      if (a.cost>0) textPx(`-${a.cost}SÉRO`, 520, 158+i*38, P.mpBar, 5);
+    });
+  }
+
+  // Phase overlays
+  if (b.phase !== 'SELECT') {
+    // dim menu area
+    ctx.fillStyle = '#00000066';
+    ctx.fillRect(320,110,300,200);
+    if (b.phase === 'LOG_WIN' || b.phase === 'LOG_WIN_BOSS') {
+      box(160, 190, 320, 80);
+      textCenter('SIEG!', 230, P.gold, 14);
+      textCenter(`+${e.xp} XP`, 258, P.accent, 8);
+    }
+    if (b.phase === 'LOG_LOSE') {
+      box(160, 190, 320, 80);
+      textCenter('NIEDERLAGE', 230, P.red, 12);
+    }
+  }
+}
+
+// ---- SCENE: GAME OVER / VICTORY ----
+function drawGameOver() {
+  cls('#050508');
+  box(80, 150, 480, 200);
+  textCenter('GAME OVER', 220, P.red, 20);
+  textCenter('Die Santé ist auf null gesunken.', 260, P.dim, 6);
+  textCenter('Das moderne Leben hat gesiegt.', 280, P.dim, 6);
+  if (G.titleBlink) textCenter('[ ENTER ] NEUSTART', 330, P.cursor, 8);
+}
+
+function drawVictory() {
+  cls('#050510');
+  for (let i=0; i<20; i++) {
+    const sx = (i*97+G.frame)%640;
+    ctx.fillStyle = P.gold;
+    ctx.fillRect(sx, (i*37)%200, 2, 2);
+  }
+  box(80, 140, 480, 200);
+  textCenter('SIEG!', 195, P.gold, 24);
+  textCenter('Du hast La Modernité besiegt.', 235, P.text, 7);
+  textCenter('Für einen Moment war es still.', 255, P.dim, 6);
+  textCenter('Du weißt, dass sie zurückkommt.', 275, P.dim, 6);
+  if (G.titleBlink) textCenter('[ ENTER ] TITELBILDSCHIRM', 330, P.cursor, 8);
+}
+
+// ---- MAIN RENDER ----
+function render() {
+  switch(G.scene) {
+    case 'TITLE':    drawTitle();    break;
+    case 'DIALOGUE': drawDialogue(); break;
+    case 'OVERWORLD':drawOverworld();break;
+    case 'BATTLE':   drawBattle();   break;
+    case 'GAMEOVER': drawGameOver(); break;
+    case 'VICTORY':  drawVictory();  break;
+  }
+}
+
+// ---- GAME LOOP ----
+function loop() {
+  update();
+  render();
+  requestAnimationFrame(loop);
+}
+
+// Wait for font, then start
+document.fonts.ready.then(() => {
+  loop();
+});
+</script>
+</body>
+</html>
