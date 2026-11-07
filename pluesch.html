@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="pluesch">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Christian Schiffer – Der Plüschwald</title>
+  <meta name="description" content="Christian Schiffer, Journalist, Autor, Speaker und Trainer aus München – als Plüschwald zum Streicheln.">
+  <script>window.CS_WORLD = "pluesch";</script>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="pluesch.css">
+  <script src="content.js"></script>
+</head>
+<body class="pl-page">
+  <a class="pl-skip" href="#journalismus">Direkt zu den Inhalten</a>
+  <noscript>
+    <p class="pl-noscript">Dieser Plüschwald braucht JavaScript. <a href="index.html">Zur normalen Seite</a></p>
+  </noscript>
+
+  <!-- Hier zeichnet das Streicheln seine Spuren ins Fell -->
+  <canvas class="pl-velvet" aria-hidden="true"></canvas>
+  <div class="pl-sprouts" aria-hidden="true"></div>
+
+  <div class="pl-top">
+    <a class="pl-brand" href="#oben" aria-label="Nach oben">
+      <span class="pl-brand__patch">CS</span>
+      <span class="pl-brand__name">Christian Schiffer</span>
+    </a>
+    <nav class="pl-nav" aria-label="Bereiche"></nav>
+    <div class="pl-tools">
+      <span class="pl-meter" title="So viel Plüsch hast du schon gestreichelt"><span id="pl-meter">0,0</span> m gestreichelt</span>
+      <button class="pl-sound" type="button" id="pl-sound" aria-pressed="true">
+        <svg aria-hidden="true"><use href="#pl-i-ton"></use></svg><span>Ton an</span>
+      </button>
+    </div>
+    <div class="pl-thread" aria-hidden="true">
+      <span class="pl-thread__line"></span>
+      <svg class="pl-thread__needle"><use href="#pl-nadel"></use></svg>
+    </div>
+  </div>
+
+  <main id="pl-main"></main>
+
+  <footer class="pl-foot">
+    <div class="pl-carelabel">
+      <p class="pl-carelabel__title">Pflegehinweise</p>
+      <ul class="pl-care">
+        <li><svg aria-hidden="true"><use href="#pl-c-wash"></use></svg>100 % Journalismus</li>
+        <li><svg aria-hidden="true"><use href="#pl-c-hand"></use></svg>Handwäsche mit Fakten</li>
+        <li><svg aria-hidden="true"><use href="#pl-c-dry"></use></svg>Nicht in den Trockner</li>
+        <li><svg aria-hidden="true"><use href="#pl-c-iron"></use></svg>Nur lauwarm bügeln</li>
+      </ul>
+      <p class="pl-carelabel__made">Handgemacht in München seit 1979 · bisher <span id="pl-meter-foot">0,0</span> m gestreichelt</p>
+      <p class="pl-carelabel__links">
+        <a href="index.html#design-papier">Normale Seite</a>
+        <span aria-hidden="true">·</span>
+        <a href="impressum.html">Impressum</a>
+      </p>
+    </div>
+  </footer>
+
+  <div class="pl-toast" role="status" aria-live="polite"></div>
+
+  <!-- Aufnäher, Bäume, Pilze: alles aus Filz -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <pattern id="pl-satin" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+        <rect width="5" height="5" fill="#F6F1DE"></rect>
+        <rect width="1.6" height="5" fill="#E3DABD"></rect>
+      </pattern>
+      <pattern id="pl-satin-gold" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)">
+        <rect width="5" height="5" fill="#E6B54E"></rect>
+        <rect width="1.6" height="5" fill="#C99530"></rect>
+      </pattern>
+
+      <symbol id="pl-i-mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5M8.5 21.5h7"></path></g></symbol>
+      <symbol id="pl-i-schere" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"></path></g></symbol>
+      <symbol id="pl-i-buehne" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 3.5h19M4 3.5v15c3-1.5 5-6 5-15M20 3.5v15c-3-1.5-5-6-5-15M2.5 21h19"></path></g></symbol>
+      <symbol id="pl-i-ich" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"></path></g></symbol>
+      <symbol id="pl-i-stern" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17l-5.6 3 1.1-6.2L3 9.4l6.2-.9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path></symbol>
+      <symbol id="pl-i-brief" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3.5 7 8.5 6 8.5-6"></path></g></symbol>
+      <symbol id="pl-i-ton" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"></path></g></symbol>
+      <symbol id="pl-i-tonaus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="m16 9 5 6M21 9l-5 6"></path></g></symbol>
+      <symbol id="pl-i-pfeil" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+
+      <symbol id="pl-tanne" viewBox="0 0 60 92">
+        <rect x="26" y="74" width="8" height="16" rx="2" style="fill:var(--stamm,#6E4A31)"></rect>
+        <path d="M30 3 L49 31 H40 L53 53 H43 L57 78 H3 L17 53 H7 L20 31 H11 Z" fill="currentColor"></path>
+        <path d="M30 10 L43 29.5 H34.5 L47.5 51.5 H38 L50.5 74 H9.5 L22 51.5 H12.5 L25.5 29.5 H17 Z" fill="none" stroke="rgba(255,250,230,.72)" stroke-width="1.3" stroke-dasharray="3 2.6" stroke-linejoin="round"></path>
+      </symbol>
+      <symbol id="pl-pilz" viewBox="0 0 60 70">
+        <path d="M22 37 h16 v23 c0 6 -16 6 -16 0 z" fill="#F3EEDD"></path>
+        <path d="M24.5 40 h11 v19 c0 3 -11 3 -11 0 z" fill="none" stroke="rgba(110,74,49,.55)" stroke-width="1.2" stroke-dasharray="2.5 2"></path>
+        <path d="M4 40 C4 13 56 13 56 40 C44 45 16 45 4 40 Z" fill="currentColor"></path>
+        <path d="M9 36.5 C10.5 19 49.5 19 51 36.5" fill="none" stroke="rgba(255,250,230,.8)" stroke-width="1.3" stroke-dasharray="3 2.5"></path>
+        <circle cx="19" cy="28" r="3.6" fill="#F3EEDD"></circle><circle cx="33" cy="22.5" r="3" fill="#F3EEDD"></circle><circle cx="44" cy="31" r="3.4" fill="#F3EEDD"></circle><circle cx="29" cy="35" r="2.3" fill="#F3EEDD"></circle>
+      </symbol>
+      <symbol id="pl-blatt" viewBox="0 0 60 60">
+        <path d="M8 52 C6 26 26 8 54 6 C54 32 36 52 8 52 Z" fill="currentColor"></path>
+        <path d="M11 49 C22 38 34 26 48 12" fill="none" stroke="rgba(255,250,230,.8)" stroke-width="1.4" stroke-dasharray="3 2.5"></path>
+      </symbol>
+      <symbol id="pl-eichel" viewBox="0 0 40 56">
+        <path d="M8 22 C8 40 14 52 20 54 C26 52 32 40 32 22 Z" fill="#C98B45"></path>
+        <path d="M11.5 29 C12.5 39 16 47 20 50" fill="none" stroke="rgba(255,250,230,.65)" stroke-width="1.2" stroke-dasharray="2.5 2"></path>
+        <path d="M4 22 C4 10 36 10 36 22 C30 26.5 10 26.5 4 22 Z" fill="#6E4A31"></path>
+        <path d="M20 3.5 v8" stroke="#6E4A31" stroke-width="3" stroke-linecap="round"></path>
+      </symbol>
+      <symbol id="pl-busch" viewBox="0 0 80 50">
+        <path d="M6 48 C0 30 14 18 26 24 C28 8 52 6 56 22 C70 16 82 32 74 48 Z" fill="currentColor"></path>
+        <path d="M12 44 C9 33 17 26 26 29 M30 28 C33 15 50 14 52 27 M56 27 C66 23 74 33 70 44" fill="none" stroke="rgba(255,250,230,.7)" stroke-width="1.3" stroke-dasharray="3 2.5"></path>
+      </symbol>
+      <symbol id="pl-herz" viewBox="0 0 40 36">
+        <path d="M20 34 C8 25 2 18 2 11 C2 5 7 2 11.5 2 C15 2 18 4 20 7 C22 4 25 2 28.5 2 C33 2 38 5 38 11 C38 18 32 25 20 34 Z" fill="currentColor"></path>
+        <path d="M20 29 C10 22 6 17 6 11.5 C6 8 8.5 6 11.5 6" fill="none" stroke="rgba(255,250,230,.75)" stroke-width="1.3" stroke-dasharray="2.5 2"></path>
+      </symbol>
+      <symbol id="pl-nadel" viewBox="0 0 44 12">
+        <path d="M2.5 4.2 Q2.5 3 4.5 3 L28 4.6 L42.5 6 L28 7.4 L4.5 9 Q2.5 9 2.5 7.8 Z" fill="#D6DBD2" stroke="#7D857B" stroke-width=".6"></path>
+        <ellipse cx="7" cy="6" rx="2.6" ry="1.1" fill="#24382A"></ellipse>
+      </symbol>
+      <symbol id="pl-schleife" viewBox="0 0 90 48">
+        <path d="M40 24 L29 45 L37.5 43 L41.5 47.5 L45 27 L48.5 47.5 L52.5 43 L61 45 L50 24 Z" fill="currentColor" opacity=".88"></path>
+        <path d="M45 23 C30 4 8 0 6 12 C4 24 10 38 45 23 Z" fill="currentColor"></path>
+        <path d="M45 23 C60 4 82 0 84 12 C86 24 80 38 45 23 Z" fill="currentColor"></path>
+        <path d="M39 19.5 C29 9.5 15 7.5 12 13.5 M51 19.5 C61 9.5 75 7.5 78 13.5" fill="none" stroke="rgba(255,250,230,.7)" stroke-width="1.3" stroke-dasharray="2.5 2"></path>
+        <ellipse cx="45" cy="23" rx="8" ry="9" style="fill:var(--knoten,#B07F22)"></ellipse>
+      </symbol>
+      <symbol id="pl-schere" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"></path></g></symbol>
+
+      <symbol id="pl-c-wash" viewBox="0 0 28 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 7.5 L5 21 H23 L25.5 7.5"></path><path d="M2.5 7.5 C5 5.5 7 9.5 9.5 7.5 C12 5.5 14 9.5 16.5 7.5 C19 5.5 21 9.5 25.5 7.5"></path></g><text x="14" y="18.5" text-anchor="middle" font-size="7.5" font-family="Nunito, sans-serif" font-weight="700" fill="currentColor">30</text></symbol>
+      <symbol id="pl-c-hand" viewBox="0 0 28 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9.5 L5 21 H23 L25.5 9.5"></path><path d="M9 12 V5.5 a1.4 1.4 0 0 1 2.8 0 V11 M11.8 10 V3.8 a1.4 1.4 0 0 1 2.8 0 V10.5 M14.6 10 V5 a1.4 1.4 0 0 1 2.8 0 V12 M9 11.5 C7 10 5.5 11.5 7 13.5 L9.5 16.5 H16 L17.4 12"></path></g></symbol>
+      <symbol id="pl-c-dry" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="1.5"></rect><circle cx="12" cy="12" r="6"></circle><path d="M3.5 3.5 20.5 20.5M20.5 3.5 3.5 20.5"></path></g></symbol>
+      <symbol id="pl-c-iron" viewBox="0 0 28 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 19 H25 C25 12 21 8 15 8 H9 C7 8 6.5 6 8 5 H20"></path><path d="M3 19 C3.5 14 6 12 9.5 12"></path></g><circle cx="15" cy="14.5" r="1.4" fill="currentColor"></circle></symbol>
+    </defs>
+  </svg>
+
+  <script src="pluesch.js"></script>
+</body>
+</html>

@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="theme.js"></script>
     <title>Christian Schiffer | Journalist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -10,19 +11,19 @@
         theme: {
           extend: {
             fontFamily: {
-              mono: ['"Courier Prime"', 'monospace'],
-              serif: ['"DM Serif Display"', 'serif'], 
+              mono: ['var(--font-mono)'],
+              serif: ['var(--font-serif)'], 
             },
             colors: {
               paper: {
-                DEFAULT: '#F0E6D2',
-                dark: '#E6D5B8',
+                DEFAULT: 'rgb(var(--paper) / <alpha-value>)',
+                dark: 'rgb(var(--paper-dark) / <alpha-value>)',
               },
               ink: {
-                DEFAULT: '#1c1917',
-                light: '#44403c',
+                DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+                light: 'rgb(var(--ink-light) / <alpha-value>)',
               },
-              marker: '#b91c1c',
+              marker: 'rgb(var(--marker) / <alpha-value>)',
             },
             backgroundImage: {
               'noise': "url('graphics/noise.svg')",
@@ -33,7 +34,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Bagel+Fat+One&family=Baloo+2:wght@400;600;700;800&family=Fredoka:wght@400;600;700&family=Nunito:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
       .bg-texture::before {
@@ -51,7 +52,7 @@
       }
       .bg-crumpled {
         position: relative;
-        background-color: #E6D5B8; 
+        background-color: rgb(var(--paper-dark)); 
       }
       .bg-crumpled::after {
         content: "";
@@ -67,8 +68,8 @@
         z-index: 0; 
       }
       ::selection {
-        background: #b91c1c;
-        color: #F0E6D2;
+        background: rgb(var(--marker));
+        color: rgb(var(--paper));
       }
     </style>
 <script type="importmap">
@@ -81,6 +82,7 @@
 }
 </script>
 <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="theme.css">
 </head>
   <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
     
@@ -120,7 +122,7 @@
              // Speaker, Trainer & Moderator
            </div>
 
-           <a href="ueber-mich.html" class="group flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-ink border border-ink px-6 py-3 hover:bg-ink hover:text-paper transition-colors shadow-[4px_4px_0px_0px_rgba(28,25,23,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
+           <a href="ueber-mich.html" class="group flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-ink border border-ink px-6 py-3 hover:bg-ink hover:text-paper transition-colors shadow-[4px_4px_0px_0px_var(--shadow-ink)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
               Dossier öffnen
               <i data-lucide="arrow-right" class="w-4 h-4"></i>
            </a>
@@ -248,7 +250,7 @@
                 Lassen Sie uns sprechen!
               </h2>
               <a 
-                href="mailto:christian.schiffer at gmx.de" 
+                href="mailto:christian.schiffer@gmx.de" 
                 class="text-xl md:text-3xl font-mono border-b-2 border-ink-light pb-2 hover:border-marker hover:text-marker transition-colors"
               >
                 christian.schiffer at gmx.de

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="pixel">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Christian Schiffer – Das Spiel</title>
+  <meta name="description" content="Christian Schiffer, Journalist, Autor, Speaker und Trainer aus München – als 16-Bit-Videospiel.">
+  <script>window.CS_WORLD = "pixel";</script>
+  <script src="theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="pixel.css">
+  <script src="content.js"></script>
+</head>
+<body>
+  <noscript>
+    <p class="px-noscript">Dieses Design ist ein kleines Spiel und braucht JavaScript. <a href="index.html">Zur normalen Seite</a></p>
+  </noscript>
+
+  <div class="px-stars" aria-hidden="true"></div>
+
+  <!-- Bildschirm-Leiste: Punkte, Münzen, Ton -->
+  <header class="px-hud" hidden>
+    <button class="px-hud__back" type="button" data-go="karte">◀ KARTE</button>
+    <div class="px-hud__title" id="px-hud-title">WORLD MAP</div>
+    <div class="px-hud__stats">
+      <span title="Gesammelte Münzen">◉ <b id="px-coins">00</b>/<span id="px-coins-max">00</span></span>
+      <button class="px-hud__sound" type="button" id="px-sound" aria-pressed="true" title="Ton an/aus">♪ AN</button>
+    </div>
+  </header>
+
+  <main id="px-main" aria-live="polite"></main>
+
+  <footer class="px-foot">
+    <a href="index.html#design-papier">Normale Seite</a>
+    <span aria-hidden="true">·</span>
+    <a href="impressum.html">Impressum</a>
+  </footer>
+
+  <div class="px-flash" aria-hidden="true"></div>
+  <script src="pixel.js"></script>
+</body>
+</html>

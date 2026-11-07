@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="theme.js"></script>
     <title>Impressum | Christian Schiffer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -10,19 +11,19 @@
         theme: {
           extend: {
             fontFamily: {
-              mono: ['"Courier Prime"', 'monospace'],
-              serif: ['"DM Serif Display"', 'serif'], 
+              mono: ['var(--font-mono)'],
+              serif: ['var(--font-serif)'], 
             },
             colors: {
               paper: {
-                DEFAULT: '#F0E6D2',
-                dark: '#E6D5B8',
+                DEFAULT: 'rgb(var(--paper) / <alpha-value>)',
+                dark: 'rgb(var(--paper-dark) / <alpha-value>)',
               },
               ink: {
-                DEFAULT: '#1c1917',
-                light: '#44403c',
+                DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+                light: 'rgb(var(--ink-light) / <alpha-value>)',
               },
-              marker: '#b91c1c',
+              marker: 'rgb(var(--marker) / <alpha-value>)',
             },
             backgroundImage: {
               'noise': "url('graphics/noise.svg')",
@@ -33,7 +34,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Bagel+Fat+One&family=Baloo+2:wght@400;600;700;800&family=Fredoka:wght@400;600;700&family=Nunito:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
       .bg-texture::before {
@@ -51,7 +52,7 @@
       }
       .bg-crumpled {
         position: relative;
-        background-color: #E6D5B8; 
+        background-color: rgb(var(--paper-dark)); 
       }
       .bg-crumpled::after {
         content: "";
@@ -67,16 +68,16 @@
         z-index: 0; 
       }
       ::selection {
-        background: #b91c1c;
-        color: #F0E6D2;
+        background: rgb(var(--marker));
+        color: rgb(var(--paper));
       }
       /* Utility class for the unified card style */
       .card-box {
-        background-color: #f6faf9; /* UPDATED COLOR */
-        border: 1px solid #1c1917; /* ink */
+        background-color: rgb(var(--card)); /* UPDATED COLOR */
+        border: 1px solid rgb(var(--ink)); /* ink */
         padding: 1.5rem;
         position: relative;
-        box-shadow: 4px 4px 0px 0px rgba(28,25,23,1);
+        box-shadow: 4px 4px 0px 0px var(--shadow-ink);
         transition: transform 0.2s;
       }
       .card-box:hover {
@@ -86,8 +87,8 @@
         position: absolute;
         top: -0.75rem;
         left: 1rem;
-        background-color: #1c1917;
-        color: #F0E6D2;
+        background-color: rgb(var(--ink));
+        color: rgb(var(--paper));
         font-size: 0.625rem;
         font-weight: bold;
         text-transform: uppercase;
@@ -95,10 +96,11 @@
         padding: 0.25rem 0.5rem;
       }
       .card-tag.highlight {
-        background-color: #b91c1c;
-        color: #F0E6D2;
+        background-color: rgb(var(--marker));
+        color: rgb(var(--paper));
       }
     </style>
+    <link rel="stylesheet" href="theme.css">
 </head>
   <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
     
@@ -146,7 +148,7 @@
            <!-- Unified H2: Removed border-b -->
            <h2 class="font-serif text-2xl mb-4">Kontakt</h2>
            <p class="mt-4">
-             E-Mail: kontakt@christian-schiffer.de<br>
+             E-Mail: christian.schiffer@gmx.de<br>
              <!-- Telefon: [Optional] -->
            </p>
         </div>

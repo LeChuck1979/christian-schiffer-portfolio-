@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="theme.js"></script>
     <title>Kontakt | Christian Schiffer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -10,19 +11,19 @@
         theme: {
           extend: {
             fontFamily: {
-              mono: ['"Courier Prime"', 'monospace'],
-              serif: ['"DM Serif Display"', 'serif'], 
+              mono: ['var(--font-mono)'],
+              serif: ['var(--font-serif)'], 
             },
             colors: {
               paper: {
-                DEFAULT: '#F0E6D2',
-                dark: '#E6D5B8',
+                DEFAULT: 'rgb(var(--paper) / <alpha-value>)',
+                dark: 'rgb(var(--paper-dark) / <alpha-value>)',
               },
               ink: {
-                DEFAULT: '#1c1917',
-                light: '#44403c',
+                DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+                light: 'rgb(var(--ink-light) / <alpha-value>)',
               },
-              marker: '#b91c1c',
+              marker: 'rgb(var(--marker) / <alpha-value>)',
             },
             backgroundImage: {
               'noise': "url('graphics/noise.svg')",
@@ -33,7 +34,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Bagel+Fat+One&family=Baloo+2:wght@400;600;700;800&family=Fredoka:wght@400;600;700&family=Nunito:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
       .bg-texture::before {
@@ -51,7 +52,7 @@
       }
       .bg-crumpled {
         position: relative;
-        background-color: #E6D5B8; 
+        background-color: rgb(var(--paper-dark)); 
       }
       .bg-crumpled::after {
         content: "";
@@ -67,10 +68,11 @@
         z-index: 0; 
       }
       ::selection {
-        background: #b91c1c;
-        color: #F0E6D2;
+        background: rgb(var(--marker));
+        color: rgb(var(--paper));
       }
     </style>
+    <link rel="stylesheet" href="theme.css">
 </head>
   <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
     
@@ -104,20 +106,20 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         
         <!-- Card 1: Email -->
-        <div class="bg-white p-8 border-2 border-ink shadow-[8px_8px_0px_0px_rgba(28,25,23,0.2)] transform rotate-1 hover:rotate-0 transition-transform">
+        <div class="bg-white p-8 border-2 border-ink shadow-[8px_8px_0px_0px_var(--shadow-ink-20)] transform rotate-1 hover:rotate-0 transition-transform">
           <h2 class="font-serif text-2xl mb-4 flex items-center gap-2">
             <i data-lucide="mail" class="w-6 h-6 text-marker"></i> E-Mail
           </h2>
           <p class="font-mono text-sm leading-relaxed mb-6">
             Für Anfragen bezüglich Vorträgen, Moderationen oder journalistischen Aufträgen nutzen Sie bitte vorzugsweise diesen Kanal.
           </p>
-          <a href="mailto:kontakt@christian-schiffer.de" class="inline-block border-b-2 border-marker text-lg font-bold hover:bg-marker hover:text-paper transition-colors pb-1">
+          <a href="mailto:christian.schiffer@gmx.de" class="inline-block border-b-2 border-marker text-lg font-bold hover:bg-marker hover:text-paper transition-colors pb-1">
             christian.schiffer at gmx.de
           </a>
         </div>
 
          <!-- Card 2: Social -->
-         <div class="bg-paper-dark p-8 border-2 border-ink shadow-[8px_8px_0px_0px_rgba(28,25,23,0.2)] transform -rotate-1 hover:rotate-0 transition-transform">
+         <div class="bg-paper-dark p-8 border-2 border-ink shadow-[8px_8px_0px_0px_var(--shadow-ink-20)] transform -rotate-1 hover:rotate-0 transition-transform">
           <h2 class="font-serif text-2xl mb-4 flex items-center gap-2">
             <i data-lucide="globe" class="w-6 h-6 text-marker"></i> Social Media
           </h2>

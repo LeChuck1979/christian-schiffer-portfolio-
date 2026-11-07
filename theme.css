@@ -1,0 +1,487 @@
+/* =========================================================
+   Design-Umschalter: Farben, Schriften, Flächen und Bilder je Design
+   Standard ist "papier" (das ursprüngliche Aussehen).
+   Farben als "R G B", damit Tailwind Deckkraft wie bg-paper/75 kann.
+   ========================================================= */
+
+:root,
+[data-theme="papier"] {
+  --paper: 240 230 210;
+  --paper-dark: 230 213 184;
+  --ink: 28 25 23;
+  --ink-light: 68 64 60;
+  --marker: 185 28 28;
+  --card: 246 250 249;
+  --sheet: 255 255 255;
+  --font-mono: "Courier Prime", monospace;
+  --font-serif: "DM Serif Display", serif;
+  --crumpled-img: url("graphics/crumpled.jpg");
+  --mascot: none;
+  --noise-opacity: 0.15;
+  --noise-blend: multiply;
+
+  --shadow-ink: rgb(var(--ink));
+  --shadow-ink-50: rgb(var(--ink) / 0.5);
+  --shadow-ink-20: rgb(var(--ink) / 0.2);
+  --shadow-marker: rgb(var(--marker));
+}
+
+/* ---------- Knetmasse ---------- */
+[data-theme="knete"] {
+  --paper: 255 248 234;
+  --paper-dark: 255 222 150;
+  --ink: 31 43 82;
+  --ink-light: 66 80 122;
+  --marker: 233 74 60;
+  --card: 255 255 255;
+  --sheet: 255 255 255;
+  --clay-yellow: 255 205 72;
+  --clay-blue: 104 192 238;
+  --clay-green: 134 204 98;
+  --clay-pink: 255 150 182;
+  --font-mono: "Baloo 2", system-ui, sans-serif;
+  --font-serif: "Bagel Fat One", "Baloo 2", sans-serif;
+  --crumpled-img: url("graphics/themes/knete-hintergrund.webp");
+  --mascot: url("graphics/themes/knete-maskottchen.webp");
+  --surface: url("graphics/themes/knete-flaeche.webp");
+  --noise-opacity: 0;
+  --clay-shadow: inset -5px -7px 0 rgb(0 0 0 / .13), inset 5px 5px 0 rgb(255 255 255 / .45), 0 7px 0 rgb(0 0 0 / .14), 0 16px 24px rgb(0 0 0 / .12);
+  --clay-shadow-small: inset -3px -4px 0 rgb(0 0 0 / .15), inset 3px 3px 0 rgb(255 255 255 / .4), 0 4px 0 rgb(0 0 0 / .16);
+  --shadow-ink: rgb(var(--ink) / .2);
+  --shadow-ink-50: rgb(var(--ink) / .15);
+  --shadow-ink-20: rgb(var(--ink) / .1);
+  --shadow-marker: rgb(var(--marker) / .35);
+}
+
+/* ---------- Plüsch ---------- */
+[data-theme="pluesch"] {
+  --paper: 237 241 226;
+  --paper-dark: 214 224 196;
+  --ink: 36 56 42;
+  --ink-light: 76 96 78;
+  --marker: 178 86 46;
+  --card: 249 251 243;
+  --sheet: 250 252 245;
+  --font-mono: "Nunito", system-ui, sans-serif;
+  --font-serif: "Fredoka", "Nunito", sans-serif;
+  --crumpled-img: url("graphics/themes/pluesch-hintergrund.webp");
+  --mascot: url("graphics/themes/pluesch-maskottchen.webp");
+  --surface: url("graphics/themes/pluesch-flaeche.webp");
+  --noise-opacity: 0;
+}
+
+/* ---------- Steampunk (dunkel) ---------- */
+[data-theme="steampunk"] {
+  --paper: 38 27 20;
+  --paper-dark: 54 38 26;
+  --ink: 236 214 170;
+  --ink-light: 201 171 122;
+  --marker: 218 142 68;
+  --card: 52 37 27;
+  --sheet: 60 43 31;
+  --font-mono: "Special Elite", "Courier Prime", monospace;
+  --font-serif: "Cinzel", "DM Serif Display", serif;
+  --crumpled-img: url("graphics/themes/steampunk-hintergrund.webp");
+  --mascot: url("graphics/themes/steampunk-maskottchen.webp");
+  --surface: url("graphics/themes/steampunk-flaeche.webp");
+  --noise-opacity: 0.12;
+  --noise-blend: overlay;
+  --brass: linear-gradient(135deg, #6b4a1f 0%, #e6c47a 22%, #8a6128 48%, #f0d48a 74%, #6b4a1f 100%);
+  --shadow-ink: rgb(0 0 0 / 0.55);
+  --shadow-ink-50: rgb(0 0 0 / 0.4);
+  --shadow-ink-20: rgb(0 0 0 / 0.3);
+  color-scheme: dark;
+}
+
+/* =========================================================
+   Gemeinsame Regeln, die die Variablen benutzen
+   ========================================================= */
+
+.bg-texture::before {
+  opacity: var(--noise-opacity) !important;
+  mix-blend-mode: var(--noise-blend) !important;
+}
+.bg-crumpled { background-color: rgb(var(--paper-dark)) !important; }
+.bg-crumpled::after { background-image: var(--crumpled-img) !important; }
+
+/* Die ganze Seite bekommt die Fläche des Designs */
+[data-theme]:not([data-theme="papier"]) body {
+  background-image: var(--surface);
+  background-size: 560px;
+}
+
+html { transition: background-color .3s; }
+body { transition: background-color .3s, color .3s; }
+
+/* Weiße "Zettel" und graue Hilfsfarben folgen dem Design */
+[data-theme]:not([data-theme="papier"]) .bg-white { background-color: rgb(var(--sheet)); }
+[data-theme]:not([data-theme="papier"]) .text-gray-500 { color: rgb(var(--ink-light)); }
+[data-theme]:not([data-theme="papier"]) .border-gray-300 { border-color: rgb(var(--ink) / 0.25); }
+
+/* ---------- Maskottchen ---------- */
+/* Desktop: rechts im freien Raum neben der großen Überschrift, über dem Knopf */
+.theme-mascot {
+  display: none;
+  position: absolute;
+  right: 9%;
+  top: 24%;
+  width: clamp(150px, 16vw, 240px);
+  aspect-ratio: 2 / 3;
+  background: var(--mascot) no-repeat center bottom / contain;
+  pointer-events: none;
+  z-index: 5;
+}
+[data-theme]:not([data-theme="papier"]) .theme-mascot { display: block; }
+[data-theme="steampunk"] .theme-mascot { filter: drop-shadow(0 10px 18px rgb(0 0 0 / .6)); }
+/* Tablet und kleiner Laptop: unten in der Mitte, zwischen Stichpunkten und Knopf */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .theme-mascot { width: 110px; top: auto; bottom: 6%; right: auto; left: 47%; }
+}
+/* Handy: klein unten links, neben dem Knopf */
+@media (max-width: 767px) {
+  .theme-mascot { width: 70px; top: auto; bottom: 14px; right: auto; left: 5%; }
+}
+/* Zweites Maskottchen winkt unten in der dunklen Kontakt-Fußzeile jeder Seite */
+/* steht oben auf der Kante der Fußzeile und schaut drüber */
+.theme-mascot--footer {
+  top: auto; left: auto;
+  bottom: 100%;
+  margin-bottom: -18px;
+  right: 1.2%;
+  width: 96px;
+  z-index: 2;
+}
+[data-theme]:not([data-theme="papier"]) section.bg-ink:last-of-type { overflow: visible; }
+@media (max-width: 1023px) { .theme-mascot--footer { display: none !important; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-theme="knete"] .theme-mascot { animation: mascot-knet 2.4s ease-in-out infinite; transform-origin: bottom center; }
+  [data-theme="pluesch"] .theme-mascot { animation: mascot-hops 2.6s ease-in-out infinite; transform-origin: bottom center; }
+  [data-theme="steampunk"] .theme-mascot { animation: mascot-dampf 4s ease-in-out infinite; }
+}
+@keyframes mascot-knet { 0%,100% { transform: scale(1, 1); } 40% { transform: scale(1.04, .95); } 60% { transform: scale(.97, 1.04); } }
+@keyframes mascot-hops { 0%,100% { transform: translateY(0) scale(1,1); } 45% { transform: translateY(-6px) scale(.98,1.02); } 55% { transform: translateY(-6px) scale(.98,1.02); } }
+@keyframes mascot-dampf { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+/* Knöpfe im Kopfbereich bekommen einen Hintergrund, damit sie auf Bildern lesbar bleiben */
+[data-theme]:not([data-theme="papier"]) .bg-crumpled a.border-ink {
+  background-color: rgb(var(--paper) / .88);
+  position: relative;
+  z-index: 6;
+}
+
+/* =========================================================
+   KNETMASSE – alles wie von Hand geformt
+   ========================================================= */
+[data-theme="knete"] ::selection { background: rgb(var(--clay-yellow)); color: rgb(var(--ink)); }
+
+/* Kopfleiste: Knetstreifen mit blauer Wulst */
+[data-theme="knete"] header {
+  border-bottom: 0 !important;
+  background-color: rgb(var(--paper) / .9) !important;
+  box-shadow: 0 6px 0 rgb(var(--clay-blue)), 0 12px 18px rgb(0 0 0 / .1);
+}
+[data-theme="knete"] header a span.bg-ink {
+  background: rgb(var(--marker));
+  color: #fff;
+  border-radius: 16px 12px 18px 14px;
+  box-shadow: var(--clay-shadow-small);
+}
+
+/* Überschriften mit Knet-Schatten */
+[data-theme="knete"] .font-serif { letter-spacing: 0 !important; }
+[data-theme="knete"] h1, [data-theme="knete"] h2, [data-theme="knete"] h3, [data-theme="knete"] h4 {
+  text-shadow: 0 3px 0 rgb(var(--ink) / .14);
+}
+[data-theme="knete"] h1.font-serif { line-height: 1.04 !important; }
+[data-theme="knete"] h1.lg\:text-9xl { font-size: 2.6rem; }
+@media (min-width: 370px) { [data-theme="knete"] h1.lg\:text-9xl { font-size: 3.1rem; } }
+@media (min-width: 768px) { [data-theme="knete"] h1.lg\:text-9xl { font-size: 5rem; } }
+@media (min-width: 1024px) { [data-theme="knete"] h1.lg\:text-9xl { font-size: 6.4rem; } }
+
+/* Kästen werden zu bunten Knetplatten */
+[data-theme="knete"] :is(.card-box, .bg-white, .bg-paper-dark, .bg-crumpled:not(section)) {
+  border: 0 !important;
+  border-radius: 30px 38px 28px 36px / 36px 28px 38px 30px;
+  box-shadow: var(--clay-shadow) !important;
+}
+[data-theme="knete"] .card-box { background-color: rgb(var(--clay-yellow)); }
+[data-theme="knete"] .card-box:nth-child(4n+2) { background-color: rgb(var(--clay-blue)); }
+[data-theme="knete"] .card-box:nth-child(4n+3) { background-color: rgb(var(--clay-green)); }
+[data-theme="knete"] .card-box:nth-child(4n+4) { background-color: rgb(var(--clay-pink)); }
+[data-theme="knete"] .card-box .text-ink-light,
+[data-theme="knete"] .card-box p { color: rgb(var(--ink)); }
+[data-theme="knete"] .card-tag {
+  background: rgb(var(--marker)) !important;
+  color: #fff !important;
+  border-radius: 999px;
+  padding-inline: .8rem;
+  box-shadow: var(--clay-shadow-small);
+  transform: rotate(-3deg);
+}
+
+/* Bilder in dicken Knetrahmen */
+[data-theme="knete"] .aspect-video {
+  border: 10px solid rgb(var(--sheet)) !important;
+  border-radius: 28px;
+  box-shadow: var(--clay-shadow) !important;
+}
+[data-theme="knete"] img { border-radius: 18px; }
+
+/* Knöpfe: Knetwürste, die beim Drüberfahren gequetscht werden */
+[data-theme="knete"] a:is(.border, .border-2):not(.border-b) {
+  background: rgb(var(--marker)) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 999px;
+  box-shadow: var(--clay-shadow-small) !important;
+  transition: transform .15s ease;
+}
+[data-theme="knete"] a:is(.border, .border-2):not(.border-b):hover { transform: translateY(2px) scale(1.03, .94); }
+
+/* Linien werden zu Knetwülsten */
+[data-theme="knete"] :is(.border-t, .border-b, .border-y, .border-y-2, .border-b-2, .border-t-2) {
+  border-color: rgb(var(--clay-blue)) !important;
+}
+[data-theme="knete"] .bg-paper.px-4 { border-radius: 999px; box-shadow: var(--clay-shadow-small); }
+/* Stempel „München, Est. 1979“ wird zum Knet-Aufkleber */
+[data-theme="knete"] .bg-crumpled div.border.rotate-3 {
+  background: #fff; border: 0; border-radius: 14px; opacity: 1;
+  box-shadow: var(--clay-shadow-small);
+}
+
+/* Fußzeile: große dunkelblaue Knetplatte mit runden Ecken */
+[data-theme="knete"] section.bg-ink {
+  border-radius: 56px 64px 0 0 / 48px 56px 0 0;
+  box-shadow: inset 0 10px 0 rgb(255 255 255 / .12), inset 0 -6px 0 rgb(0 0 0 / .15);
+  border-top: 0 !important;
+}
+
+/* =========================================================
+   PLÜSCH – weich, rund, genäht
+   ========================================================= */
+[data-theme="pluesch"] ::selection { background: rgb(var(--marker)); color: #fff; }
+
+[data-theme="pluesch"] header {
+  border-bottom: 3px dashed rgb(var(--marker) / .55) !important;
+  background-color: rgb(var(--paper) / .85) !important;
+}
+[data-theme="pluesch"] header a span.bg-ink { border-radius: .7rem; }
+
+/* Kästen werden zu aufgenähten Stoff-Flicken */
+[data-theme="pluesch"] :is(.card-box, .bg-white, .bg-paper-dark, .bg-crumpled:not(section), .aspect-video) {
+  border: 0 !important;
+  border-radius: 26px;
+  outline: 2px dashed rgb(var(--marker) / .6);
+  outline-offset: -10px;
+  box-shadow: 0 16px 32px -14px rgb(var(--ink) / .45) !important;
+}
+[data-theme="pluesch"] :is(.card-box, .bg-white, .bg-paper-dark) { background-color: rgb(250 252 245 / .94); }
+[data-theme="pluesch"] .aspect-video { outline-color: rgb(255 255 255 / .85); }
+[data-theme="pluesch"] img { border-radius: 1rem; }
+[data-theme="pluesch"] .card-tag {
+  border-radius: 999px;
+  padding-inline: .8rem;
+  background: rgb(var(--marker)) !important;
+  color: #fff !important;
+}
+
+/* Knöpfe wie Stoffbänder mit Naht */
+[data-theme="pluesch"] a:is(.border, .border-2):not(.border-b) {
+  background: rgb(var(--marker)) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 999px;
+  outline: 1.5px dashed rgb(255 255 255 / .85);
+  outline-offset: -5px;
+  box-shadow: 0 8px 18px -8px rgb(var(--ink) / .55) !important;
+}
+[data-theme="pluesch"] a:is(.border, .border-2):not(.border-b):hover { filter: brightness(1.06); }
+
+/* Linien werden zu Nähten */
+[data-theme="pluesch"] :is(.border, .border-t, .border-b, .border-y, .border-y-2, .border-b-2, .border-t-2) { border-style: dashed; }
+[data-theme="pluesch"] .bg-paper.px-4 { border-radius: 999px; }
+[data-theme="pluesch"] [class*="shadow-["] { box-shadow: 0 12px 28px -12px rgb(var(--ink) / 0.35) !important; }
+
+[data-theme="pluesch"] h1.font-serif { font-weight: 600; letter-spacing: -0.02em; line-height: 1 !important; }
+[data-theme="pluesch"] .uppercase { letter-spacing: .06em; }
+
+/* Fußzeile: dunkellila Stoff mit Naht */
+[data-theme="pluesch"] section.bg-ink {
+  border-radius: 48px 48px 0 0;
+  outline: 2px dashed rgb(255 255 255 / .35);
+  outline-offset: -14px;
+  border-top: 0 !important;
+}
+
+/* =========================================================
+   STEAMPUNK – Leder, Messing, Nieten
+   ========================================================= */
+[data-theme="steampunk"] ::selection { background: rgb(var(--marker)); color: rgb(var(--paper)); }
+[data-theme="steampunk"] .mix-blend-multiply { mix-blend-mode: normal; }
+[data-theme="steampunk"] img { filter: sepia(.35) contrast(1.05) brightness(.95); }
+
+[data-theme="steampunk"] header {
+  border-bottom: 4px solid transparent !important;
+  border-image: var(--brass) 1;
+  background-color: rgb(var(--paper) / .88) !important;
+}
+[data-theme="steampunk"] header a span.bg-ink { background: var(--brass); color: #2b1d14; }
+
+/* Überschriften wie geprägtes Messing */
+[data-theme="steampunk"] :is(h2, h3, h4) {
+  background: linear-gradient(180deg, #f6dd9c 0%, #d4a85a 55%, #a87b35 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  text-shadow: none;
+}
+[data-theme="steampunk"] h1.font-serif { letter-spacing: 0; line-height: 1 !important; text-shadow: 0 2px 0 rgb(0 0 0 / .45); }
+
+/* Kästen werden zu Lederplatten mit Messingrahmen und Nieten */
+[data-theme="steampunk"] :is(.card-box, .bg-white, .bg-paper-dark, .bg-crumpled:not(section)) {
+  border: 6px solid transparent !important;
+  border-radius: 6px;
+  background:
+    radial-gradient(circle, #f6dd9c 0 2.5px, #6b4a1f 3px 4px, transparent 4.5px) top 6px left 6px / 12px 12px no-repeat padding-box,
+    radial-gradient(circle, #f6dd9c 0 2.5px, #6b4a1f 3px 4px, transparent 4.5px) top 6px right 6px / 12px 12px no-repeat padding-box,
+    radial-gradient(circle, #f6dd9c 0 2.5px, #6b4a1f 3px 4px, transparent 4.5px) bottom 6px left 6px / 12px 12px no-repeat padding-box,
+    radial-gradient(circle, #f6dd9c 0 2.5px, #6b4a1f 3px 4px, transparent 4.5px) bottom 6px right 6px / 12px 12px no-repeat padding-box,
+    linear-gradient(rgb(44 30 21 / .94), rgb(30 21 15 / .96)) padding-box,
+    var(--brass) border-box !important;
+  box-shadow: 0 12px 26px rgb(0 0 0 / .6), inset 0 0 28px rgb(0 0 0 / .55) !important;
+}
+[data-theme="steampunk"] .bg-crumpled:not(section)::after { opacity: .55; }
+[data-theme="steampunk"] .aspect-video {
+  border: 6px solid transparent !important;
+  border-radius: 4px;
+  background: var(--brass) border-box !important;
+  box-shadow: 0 12px 26px rgb(0 0 0 / .6) !important;
+}
+[data-theme="steampunk"] .card-tag {
+  background: var(--brass) !important;
+  color: #2b1d14 !important;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / .5);
+}
+
+/* Knöpfe aus Messing */
+[data-theme="steampunk"] a:is(.border, .border-2):not(.border-b) {
+  background: var(--brass) !important;
+  color: #2b1d14 !important;
+  border: 0 !important;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .45), inset 0 -2px 0 rgb(0 0 0 / .3), 0 4px 10px rgb(0 0 0 / .55) !important;
+  text-shadow: 0 1px 0 rgb(255 255 255 / .35);
+}
+[data-theme="steampunk"] a:is(.border, .border-2):not(.border-b):hover { filter: brightness(1.12); }
+
+/* Linien werden zu Messingrohren */
+[data-theme="steampunk"] :is(.border-t, .border-b, .border-y, .border-y-2, .border-b-2, .border-t-2):not(header) {
+  border-color: #b8893b !important;
+}
+[data-theme="steampunk"] .border-2 { border-style: double; border-width: 4px; }
+[data-theme="steampunk"] .bg-ink .text-white,
+[data-theme="steampunk"] .bg-ink .hover\:text-white:hover { color: rgb(var(--paper)); }
+/* Fußzeile: altes Pergament mit Messingkante */
+[data-theme="steampunk"] section.bg-ink {
+  border-top: 8px solid transparent !important;
+  border-image: var(--brass) 1;
+}
+[data-theme="steampunk"] section.bg-ink :is(h2, h3, h4) {
+  background: none;
+  color: rgb(var(--paper)) !important;
+}
+
+/* =========================================================
+   Der Knopf und das kleine Auswahlfeld
+   ========================================================= */
+.design-switch {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  font-family: var(--font-mono);
+}
+.design-switch__button {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem .9rem;
+  background: rgb(var(--ink));
+  color: rgb(var(--paper));
+  border: 2px solid rgb(var(--ink));
+  box-shadow: 3px 3px 0 rgb(var(--marker));
+  font-weight: 700;
+  font-size: .75rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .15s;
+}
+.design-switch__button:hover { transform: translate(-1px, -1px); }
+.design-switch__button:focus-visible,
+.design-switch__option:focus-visible { outline: 3px solid rgb(var(--marker)); outline-offset: 2px; }
+.design-switch__button svg { width: 18px; height: 18px; }
+[data-theme="pluesch"] .design-switch__button { border-radius: 999px; box-shadow: 0 8px 20px -8px rgb(var(--ink) / .5); }
+[data-theme="knete"] .design-switch__button { border: 0; border-radius: 999px; background: rgb(var(--marker)); color: #fff; box-shadow: var(--clay-shadow-small); }
+[data-theme="steampunk"] .design-switch__button { border: 0; border-radius: 4px; background: var(--brass); color: #2b1d14; box-shadow: 0 4px 10px rgb(0 0 0 / .55); }
+
+.design-switch__panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + .6rem);
+  width: 15.5rem;
+  padding: .8rem;
+  background: rgb(var(--paper));
+  color: rgb(var(--ink));
+  border: 2px solid rgb(var(--ink));
+  box-shadow: 5px 5px 0 rgb(var(--ink) / .85);
+}
+.design-switch__panel[hidden] { display: none; }
+[data-theme="pluesch"] .design-switch__panel { border-radius: 1.25rem; border-style: dashed; box-shadow: 0 14px 32px -12px rgb(var(--ink) / .45); }
+[data-theme="knete"] .design-switch__panel { border: 0; border-radius: 26px; box-shadow: var(--clay-shadow); }
+[data-theme="steampunk"] .design-switch__panel { border: 5px solid transparent; background: linear-gradient(rgb(var(--paper)), rgb(var(--paper))) padding-box, var(--brass) border-box; box-shadow: 0 10px 30px rgb(0 0 0 / .6); }
+
+.design-switch__title {
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  opacity: .7;
+  margin: 0 0 .5rem .2rem;
+}
+.design-switch__option {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  width: 100%;
+  padding: .5rem .55rem;
+  margin-top: .25rem;
+  background: transparent;
+  color: inherit;
+  border: 1px solid transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+.design-switch__option:hover { border-color: rgb(var(--ink) / .4); }
+.design-switch__option[aria-pressed="true"] { border-color: rgb(var(--ink)); background: rgb(var(--paper-dark)); }
+[data-theme="pluesch"] .design-switch__option,
+[data-theme="knete"] .design-switch__option { border-radius: .9rem; }
+.design-switch__swatch { display: flex; flex-shrink: 0; }
+.design-switch__swatch i {
+  display: block;
+  width: 14px;
+  height: 22px;
+  border: 1px solid rgb(0 0 0 / .25);
+}
+.design-switch__swatch i + i { margin-left: -3px; }
+.design-switch__name { display: block; font-weight: 700; font-size: .85rem; }
+.design-switch__hint { display: block; font-size: .7rem; opacity: .7; }
+
+@media (max-width: 767px) {
+  .design-switch { right: .75rem; bottom: .75rem; }
+  .design-switch__label { display: none; }
+  .design-switch__button { padding: .7rem; }
+}

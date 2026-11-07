@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="theme.js"></script>
     <title>Talks, Inputs & Panels | Christian Schiffer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -10,19 +11,19 @@
         theme: {
           extend: {
             fontFamily: {
-              mono: ['"Courier Prime"', 'monospace'],
-              serif: ['"DM Serif Display"', 'serif'], 
+              mono: ['var(--font-mono)'],
+              serif: ['var(--font-serif)'], 
             },
             colors: {
               paper: {
-                DEFAULT: '#F0E6D2',
-                dark: '#E6D5B8',
+                DEFAULT: 'rgb(var(--paper) / <alpha-value>)',
+                dark: 'rgb(var(--paper-dark) / <alpha-value>)',
               },
               ink: {
-                DEFAULT: '#1c1917',
-                light: '#44403c',
+                DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+                light: 'rgb(var(--ink-light) / <alpha-value>)',
               },
-              marker: '#b91c1c',
+              marker: 'rgb(var(--marker) / <alpha-value>)',
             },
             backgroundImage: {
               'noise': "url('graphics/noise.svg')",
@@ -33,7 +34,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Bagel+Fat+One&family=Baloo+2:wght@400;600;700;800&family=Fredoka:wght@400;600;700&family=Nunito:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
       .bg-texture::before {
@@ -51,7 +52,7 @@
       }
       .bg-crumpled {
         position: relative;
-        background-color: #E6D5B8; 
+        background-color: rgb(var(--paper-dark)); 
       }
       .bg-crumpled::after {
         content: "";
@@ -67,16 +68,16 @@
         z-index: 0; 
       }
       ::selection {
-        background: #b91c1c;
-        color: #F0E6D2;
+        background: rgb(var(--marker));
+        color: rgb(var(--paper));
       }
       /* Utility class for the unified card style */
       .card-box {
-        background-color: #f6faf9; /* UPDATED COLOR */
-        border: 1px solid #1c1917; /* ink */
+        background-color: rgb(var(--card)); /* UPDATED COLOR */
+        border: 1px solid rgb(var(--ink)); /* ink */
         padding: 1.5rem;
         position: relative;
-        box-shadow: 4px 4px 0px 0px rgba(28,25,23,1);
+        box-shadow: 4px 4px 0px 0px var(--shadow-ink);
         transition: transform 0.2s;
       }
       .card-box:hover {
@@ -86,8 +87,8 @@
         position: absolute;
         top: -0.75rem;
         left: 1rem;
-        background-color: #1c1917;
-        color: #F0E6D2;
+        background-color: rgb(var(--ink));
+        color: rgb(var(--paper));
         font-size: 0.625rem;
         font-weight: bold;
         text-transform: uppercase;
@@ -95,10 +96,11 @@
         padding: 0.25rem 0.5rem;
       }
       .card-tag.highlight {
-        background-color: #b91c1c;
-        color: #F0E6D2;
+        background-color: rgb(var(--marker));
+        color: rgb(var(--paper));
       }
     </style>
+    <link rel="stylesheet" href="theme.css">
 </head>
   <body class="bg-paper text-ink font-mono antialiased bg-texture relative overflow-x-hidden">
     
@@ -143,8 +145,23 @@
         </div>
 
         <!-- Talks List -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-24 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24 max-w-7xl mx-auto">
             
+            <!-- Talk 0: NANO Talk -->
+            <div class="card-box">
+                <div class="card-tag">3sat · NANO Talk</div>
+                <h3 class="font-serif text-3xl mt-4 mb-4 text-ink">Ist die Menschheit noch zu retten?</h3>
+                <p class="font-mono text-sm leading-relaxed text-ink-light mb-4">
+                    Zu Gast bei Stephanie Rohde im Wissenschaftstalk von 3sat. Klimakrise, Artensterben, künstliche Intelligenz: Hat der Mensch als Maß aller Dinge ausgedient?
+                </p>
+                <a href="https://www.zdf.de/video/talk/nano-talk-110/260511-talk-nano-ist-die-menschheit-noch-zu-retten-ntk-100" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="inline-block text-xs font-mono uppercase tracking-widest border border-ink px-3 py-1.5 hover:bg-ink hover:text-paper transition-colors">
+                    → Ansehen
+                </a>
+            </div>
+
             <!-- Talk 1 -->
             <div class="card-box">
                 <div class="card-tag highlight">re:publica 2026</div>
@@ -194,7 +211,7 @@
 
         <!-- Impressions Images (New) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
-             <div class="aspect-video border-2 border-ink shadow-[4px_4px_0px_0px_rgba(28,25,23,1)] overflow-hidden relative group transform -rotate-1 hover:rotate-0 transition-transform">
+             <div class="aspect-video border-2 border-ink shadow-[4px_4px_0px_0px_var(--shadow-ink)] overflow-hidden relative group transform -rotate-1 hover:rotate-0 transition-transform">
                  <img 
                     src="graphics/Panel2.jpg" 
                     class="object-cover w-full h-full transition-all duration-500"
@@ -202,7 +219,7 @@
                   >
                  <div class="absolute bottom-2 left-2 bg-ink text-paper px-2 py-0.5 text-[10px] font-mono font-bold uppercase">re:publica</div>
             </div>
-             <div class="aspect-video border-2 border-ink shadow-[4px_4px_0px_0px_rgba(28,25,23,1)] overflow-hidden relative group transform rotate-1 hover:rotate-0 transition-transform">
+             <div class="aspect-video border-2 border-ink shadow-[4px_4px_0px_0px_var(--shadow-ink)] overflow-hidden relative group transform rotate-1 hover:rotate-0 transition-transform">
                  <img 
                     src="graphics/talk_stage_2.jpg" 
                     class="object-cover w-full h-full transition-all duration-500"
@@ -213,13 +230,13 @@
         </div>
 
         <!-- Booking CTA (Updated Background) -->
-        <div class="bg-crumpled text-ink p-12 text-center relative shadow-[8px_8px_0px_0px_rgba(28,25,23,1)] border-2 border-ink overflow-hidden">
+        <div class="bg-crumpled text-ink p-12 text-center relative shadow-[8px_8px_0px_0px_var(--shadow-ink)] border-2 border-ink overflow-hidden">
             <div class="relative z-10">
                 <h2 class="font-serif text-4xl md:text-5xl mb-6">Christian Schiffer buchen</h2>
                 <p class="font-mono text-sm md:text-base mb-8 max-w-2xl mx-auto">
                     Sie planen eine Veranstaltung und suchen einen Speaker, der komplexe Themen verständlich und unterhaltsam auf den Punkt bringt? Suchen Sie einen Moderator, der souverän durch das Programm führt? Oder jemanden, der Ihre Panels durch wertvolle Impulse bereichert?
                 </p>
-                <a href="kontakt.html" class="inline-block bg-paper text-ink px-8 py-4 font-bold uppercase tracking-widest hover:bg-ink hover:text-paper transition-colors border-2 border-ink shadow-[4px_4px_0px_0px_rgba(28,25,23,0.5)]">
+                <a href="kontakt.html" class="inline-block bg-paper text-ink px-8 py-4 font-bold uppercase tracking-widest hover:bg-ink hover:text-paper transition-colors border-2 border-ink shadow-[4px_4px_0px_0px_var(--shadow-ink-50)]">
                     Kontakt aufnehmen
                 </a>
             </div>
@@ -249,7 +266,7 @@
                 Lets go!
               </h2>
               <a 
-                href="mailto:christian.schiffer at gmx.de" 
+                href="mailto:christian.schiffer@gmx.de" 
                 class="text-xl md:text-3xl font-mono border-b-2 border-ink-light pb-2 hover:border-marker hover:text-marker transition-colors"
               >
                 christian.schiffer at gmx.de
